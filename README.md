@@ -127,7 +127,7 @@ pkg install yarn -y
 
 pkg install imagemagick -y
 
-git clone https://github.com/ExiqonBot/Lion-Bot.git
+git clone https://github.com/ExiqonBot/LionBotv2
 
 cd Lion-Bot
 
