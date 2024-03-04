@@ -424,99 +424,88 @@ function writeData() {
   fs.writeFileSync('./database.json', JSON.stringify(user, null, 4));
 }
 
-            let { exp, level } = user;
-            let currentExp = exp - xpRange(level - 1, global.multiplier).max;
-            if (currentExp >= exp) {
-                user.level++;
-                user.exp -= xp;
-                if (m.isGroup) {
-                    const pushname = m.pushName || "No Name";
-                    await Maria.sendMessage(m.chat, {
-                        text: `${pushname}, Glückwunsch! Du bist ein Level aufgestiegen *${user.level}*! Bleibe aktiv, um weiter aufzusteigen.\nAktuelle XP: ${user.exp}/${xpRange(user.level, global.multiplier).xp}`
-                    }, m);
-                }
-            }
-            function xpRange(level, multiplier = global.multiplier || 1) {
-                if (level < 0) throw new TypeError('level cannot be negative value')
-                level = Math.floor(level)
-                let min = level === 0 ? 0 : Math.round(Math.pow(level, global.xpGrowth) * multiplier) + 50
-                let max = Math.round(Math.pow(++level, global.xpGrowth) * multiplier)
-                return {
-                    min,
-                    max,
-                        xp: max - min
-                }
-            }
-            function sort(property, ascending = true) {
-                if (property) return (...args) => args[ascending & 1][property] - args[!ascending & 1][property]
-                else return (...args) => args[ascending & 1] - args[!ascending & 1]
-            }
+            import { canLevelUp, xpRange } from '../lib/levelling.js';
 
-            function toNumber(property, _default = 0) { 
-                if (property) return (a, i, b) => {
-                    return {...b[i], [property]: a[property] === undefined ? _default : a[property] }
-                }
-                else return a => a === undefined ? _default : a
-            }
+let handler = async (m, { conn }) => {
+    let name = conn.getName(m.sender);
+    let pp = await conn.profilePictureUrl(m.sender, 'image').catch(_ => 'https://i.imgur.com/whjlJSf.jpg');
+    let user = global.db.data.users[m.sender];
+    let background = 'https://i.ibb.co/4YBNyvP/images-76.jpg'; // Fixed background URL
 
-            function enumGetKey(a) {
-                return a.jid 
+    if (!canLevelUp(user.level, user.exp, global.multiplier)) {
+        let { min, xp, max } = xpRange(user.level, global.multiplier);
+        let txt = `
+┌───⊷ *LEVEL*
+▢ Number : *${name}*
+▢ Level : *${user.level}*
+▢ XP : *${user.exp - min}/${xp}*
+▢ Rolle : *${user.role}*
+└──────────────
 
-            }  
-            function getNextRank(level) {
-                let arr = Object.keys(global.multiplier)
-                let position = false
-                Object.keys(global.multiplier).forEach((key) => {
-                    if (level <= key) {
-                        position = key
-                    }
-                })
-                if (position !== false) {
-                    return arr[position]
-                }
-            }
+Hey there, ${pushname}! Du bist noch nicht bereit für den Stufenaufstieg. Es sieht so aus, als müsstest du *${max - user.exp}* mehr XP sammeln, um aufzusteigen und neue Höhen zu erreichen!
+`.trim();
+
+        try {
+            let imgg = `https://wecomeapi.onrender.com/rankup-image?username=${encodeURIComponent(name)}&currxp=${user.exp - min}&needxp=${xp}&level=${user.level}&rank=${encodeURIComponent(pp)}&avatar=${encodeURIComponent(pp)}&background=${encodeURIComponent(background)}`;
+            conn.sendFile(m.chat, imgg, 'level.jpg', txt, m);
+        } catch (e) {
+            m.reply(txt);
+        }
+    } else {
+        let str = `
+┌─⊷ *LEVEL UP*
+▢ Vorheriges Level : *${user.level - 1}*
+▢ Aktuelles  Level : *${user.level}*
+▢ Rolle : *${user.role}*
+└──────────────
+
+Woo-hoo, ${name}! Du bist wieder ein Level aufgestiegen ${user.level}! 🎉 Zeit zum Feiern! 🎊
+ 🌟
+`.trim();
+
+        try {
+            let img = `https://wecomeapi.onrender.com/levelup-image?avatar=${encodeURIComponent(pp)}`;
+            conn.sendFile(m.chat, img, 'levelup.jpg', str, m);
+        } catch (e) {
+            m.reply(str);
+        }
+    }
+}
+
+handler.help = ['levelup'];
+handler.tags = ['economy'];
+handler.command = ['lvl', 'levelup', 'level'];
+
+export default handler
 
             
-            let rolee = (user.level <= 3) ? 'Warrior V'
-                            : ((user.level >= 3) && (user.level <= 6)) ? 'Warrior IV'
-                                    : ((user.level >= 6) && (user.level <= 9)) ? 'Warrior III'
-                                            : ((user.level >= 9) && (user.level <= 12)) ? 'Warrior II'
-                                                    : ((user.level >= 12) && (user.level <= 15)) ? 'Warrior I'
-                                                            : ((user.level >= 15) && (user.level <= 18)) ? 'Elite V'
-                                                                    : ((user.level >= 18) && (user.level <= 21)) ? 'Elite IV'
-                                                                            : ((user.level >= 21) && (user.level <= 24)) ? 'Elite III'
-                                                                                    : ((user.level >= 24) && (user.level <= 27)) ? 'Elite II'
-                                                                                            : ((user.level >= 27) && (user.level <= 30)) ? 'Elite I'
-                                                                                                    : ((user.level >= 30) && (user.level <= 33)) ? 'Master V'
-                                                                                                            : ((user.level >= 33) && (user.level <= 36)) ? 'Master IV'
-                                                                                                                    : ((user.level >= 36) && (user.level <= 39)) ? 'Master III' 
-                                                                                                                            : ((user.level >= 39) && (user.level <= 42)) ? 'Master II'
-                                                                                                                                    : ((user.level >= 42) && (user.level <= 45)) ? 'Master I'
-                                                                                                                                            : ((user.level >= 45) && (user.level <= 48)) ? 'Grand Master V'
-                                                                                                                                                    : ((user.level >= 48) && (user.level <= 51)) ? 'Grand Master IV'
-                                                                                                                                                            : ((user.level >= 51) && (user.level <= 54)) ? 'Grand Master III'
-                                                                                                                                                                    : ((user.level >= 54) && (user.level <= 57)) ? 'Grand Master II'
-                                                                                                                                                                            : ((user.level >= 57) && (user.level <= 60)) ? 'Grand Master I'
-                                                                                                                                                                                    : ((user.level >= 60) && (user.level <= 63)) ? 'Epic V'
-                                                                                                                                                                                            : ((user.level >= 63) && (user.level <= 66)) ? 'Epic IV'
-                                                                                                                                                                                                    : ((user.level >= 66) && (user.level <= 69)) ? 'Epic III'
-                                                                                                                                                                                                            : ((user.level >= 69) && (user.level <= 71)) ? 'EpicII'
-                                                                                                                                                                                                                    : ((user.level >= 71) && (user.level <= 74)) ? 'Epic I'
-                                                                                                                                                                                                                            : ((user.level >= 74) && (user.level <= 77)) ? 'Legend V'
-                                                                                                                                                                                                                                    : ((user.level >= 77) && (user.level <= 80)) ? 'Legend IV'
-                                                                                                                                                                                                                                            : ((user.level >= 80) && (user.level <= 83)) ? 'Legend III'
-                                                                                                                                                                                                                                                    : ((user.level >= 83) && (user.level <= 86)) ? 'Legend II'
-                                                                                                                                                                                                                                                            : ((user.level >= 86) && (user.level <= 89)) ? 'Legend I'
-                                                                                                                                                                                                                                                                    : ((user.level >= 89) && (user.level <= 91)) ? 'Mythic V'
-                                                                                                                                                                                                                                                                            : ((user.level >= 91) && (user.level <= 94)) ? 'Mythic IV'
-                                                                                                                                                                                                                                                                                    : ((user.level >= 94) && (user.level <= 97)) ? 'Mythic III'
-                                                                                                                                                                                                                                                                                            : ((user.level >= 97) && (user.level <= 100)) ? 'Mythic II'
-                                                                                                                                                                                                                                                                                                    : ((user.level >= 100) && (user.level <= 500)) ? 'Legende'
+            global.rpg = {
+  role(level) {
+    level = parseInt(level);
+    if (isNaN(level)) return { name: "", level: "" };
 
-                                                                                                                                                                                                                                                                                                            : ((user.level >= 500) && (user.level <= 9999)) ? 'FAST AN DER SPITZE'
+    const role = [
+      { name: "Pissmarck User", level: 0 },
+      { name: "Sklave", level: 5 }, //»»————⍟——««\n
+      { name: "Fanboy", level: 10 },
+      { name: "Siren's Apprentice", level: 15 },
+      { name: "Crackhead", level: 20 },
+      { name: "🥷 Sea Serpent Tamer", level: 25 }, //𐏓・,〔𒁷, 𒆜〢
+      { name: "⚔ Kraken Hunter", level: 30 },
+      { name: "👑 Sea King", level: 35 },
+      { name: "🪼 Neptune's Protege", level: 40 },
+      { name: "🐍 Abyssal Ambassador", level: 45 },
+      { name: "👹 Guardian of the Abyss", level: 50 },
+      { name: "🧙‍♂️ Deep Sea Sage", level: 60 },
+      { name: "🧝‍♂️ Master of Atlantis", level: 70 },
+      { name: "🐲 Legendary Leviathan", level: 80 },
+      { name: "Sozialempfänger", level: 90 },
+      { name: "Sozialempfänger", level: 100 },
+    ];
 
-                                                                                                                                                                                                                                                                                                                    : ((user.level >= 10000) && (user.level <= 17000)) ? 'EIF FAKE OWNER' : 'EIF FAKE OWNER'
-                    user.role = rolee
+    return role.reverse().find((role) => level >= role.level);
+  },
+};
                    
             db.write()
             switch (command) {
