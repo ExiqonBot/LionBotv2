@@ -43,6 +43,7 @@ try {
 }
 const { Low, JSONFile } = low
 const mongoDB = require('./lib/mongoDB')
+const { error } = require('console')
 const replay = (teks) => {
             Maria.sendMessage(m.chat, { text: teks}, { quoted: m})
         }
@@ -2249,6 +2250,7 @@ case '':
     break;
 
 case 'telestick':{
+    
 		if (args[0] && args[0].match(/(https:\/\/t.me\/addstickers\/)/gi)) {
 		let mariaresources = await Telesticker(args[0])
 		await reply(`Sending ${mariaresources.length} stickers...`)
