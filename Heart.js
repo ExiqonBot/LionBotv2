@@ -2580,3 +2580,63 @@ console.log('Caught exception: ', err)
 })
 /////
 
+const { v4: uuidv4 } = require('uuid');
+
+
+function generateId(prefix) {
+  const id = prefix + '-' + Math.floor(Math.random() * 100000);
+  let database;
+  try {
+    database = JSON.parse(fs.readFileSync('databasee.json', 'utf8'));
+  } catch (err) {
+    console.error('Error reading databasee.json: ', err);
+    return;
+  }
+  if (!Array.isArray(database)) {
+    console.error('databasee.json is not an array');
+    return;
+  }
+  database.push({ id });
+  try {
+    fs.writeFileSync('databasee.json', JSON.stringify(database, null, 2));
+  } catch (err) {
+    console.error('Error writing to databasee.json: ', err);
+  }
+  return id;
+}
+
+console.log(generateId('User')); // Output: a user ID with a random number between 0 and 99999, e.g. 'User12345'
+  
+  ///
+
+  function verifyId(message) {
+    console.log('Received /verifyid command with prefix:', message.content);
+    // ...
+  }
+
+  function verifyId(message) {
+    const args = message.content.split(' ');
+    if (args.length < 2) {
+      message.reply('Usage: /verifyid <prefix>');
+      return;
+    }
+    const prefix = args[1];
+    let database;
+    try {
+      database = JSON.parse(fs.readFileSync('databasee.json', 'utf8'));
+    } catch (err) {
+      console.error('Error reading databasee.json: ', err);
+      return;
+    }
+    if (!Array.isArray(database)) {
+      console.error('databasee.json is not an array');
+      return;
+    }
+    const user = database.find(u => u.id.startsWith(prefix + '-'));
+    if (user) {
+      message.reply('The ID for the ' + prefix + ' is: ' + user.id);
+    } else {
+      message.reply('No ' + prefix + ' with an ID has been created yet.');
+    }
+  }
+/////

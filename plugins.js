@@ -18,6 +18,7 @@ const Pino = require("pino")
 const readline = require("readline")
 const { parsePhoneNumber } = require("libphonenumber-js")
 const makeWASocket = require("@whiskeysockets/baileys").default
+const { WhatsApp } = require('@adiwajshing/baileys');
 
 const store = makeInMemoryStore({
     logger: pino().child({
