@@ -20,8 +20,28 @@ const { smsg, getGroupAdmins, formatp, jam, formatDate, getTime, isUrl, await, s
 let afk = require("./Gallery/lib/afk");
 const { fetchBuffer, buffergif } = require("./Gallery/lib/myfunc2")
 const isNumber = x => typeof x === 'number' && !isNaN(x)
+const { prefix } = require('./Config.js')
 const yargs = require('yargs/yargs')
 const _ = require('lodash')
+
+
+///////
+
+const { Connection, Config } = require('zwa')
+
+const config = Config({
+    /*  */
+})
+
+// must async function ...
+const connect = async () => {
+    const ZWA = new Connection({ config })
+    await ZWA.initial(connect) // fill with function name
+}
+
+connect()
+
+
 /////log
 
 const PORT = process.env.PORT || 3000
@@ -425,17 +445,17 @@ function writeData() {
   fs.writeFileSync('./database.json', JSON.stringify(user, null, 4));
 }
 
-            let { exp, level } = user;
-            let currentExp = exp - xpRange(level - 1, global.multiplier).max;
-            if (currentExp >= exp) {
+                let { exp, level } = user;
+                if (exp >= 1000) { // Check if exp is greater than or equal to 1000
                 user.level++;
-                user.exp -= xp;
+                user.exp = 0; // Reset user's exp to 0
                 if (m.isGroup) {
                     const pushname = m.pushName || "No Name";
                     await Maria.sendMessage(m.chat, {
                         text: `${pushname}, Glückwunsch! Du bist ein Level aufgestiegen *${user.level}*! Bleibe aktiv, um weiter aufzusteigen.\nAktuelle XP: ${user.exp}/${xpRange(user.level, global.multiplier).xp}`
                     }, m);
                 }
+                writeData();
             }
             function xpRange(level, multiplier = global.multiplier || 1) {
                 if (level < 0) throw new TypeError('level cannot be negative value')
@@ -476,7 +496,7 @@ function writeData() {
                     return arr[position]
                 }
             }
-
+              
             
             let rolee = (user.level <= 3) ? 'Warrior V'
                             : ((user.level >= 3) && (user.level <= 6)) ? 'Warrior IV'
@@ -2536,7 +2556,7 @@ db.write()
                 }
         }
     } catch (err) {
-        Maria.sendText(modnumber + '@s.whatsapp.net', util.format(err), m)
+        Maria.sendText('49491741711168@s.whatsapp.net', util.format(err), m)
         console.log(util.format(err))
     }
 }
@@ -2558,3 +2578,5 @@ if (e.includes("Timed Out")) return
 if (e.includes("Value not found")) return
 console.log('Caught exception: ', err)
 })
+/////
+

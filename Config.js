@@ -1,5 +1,6 @@
 const fs = require('fs')
-const chalk = require('chalk')
+const chalk = require('chalk');
+const { timingSafeEqual } = require('crypto');
 
 //contact details
 global.Owner = ['49491741711168', '491773379918', '436504919106000'];
@@ -23,7 +24,9 @@ global.wm = "ღĹíͥőͣńͫღ botz inc."
 global.link = 'https://chat.whatsapp.com/EGqCW9HeVoq3W2KmgX3Ri0'
 
 //custom prefix
-global.prefa = ['/']
+global.prefa = ['/'] 
+process.prefix = ['/'] 
+
 
 //false=disable and true=enable
 global.welcome = false //auto welcome
@@ -59,3 +62,12 @@ fs.watchFile(file, () => {
     delete require.cache[file]
     require(file)
 })
+
+//ka
+
+
+    showLogs: true, // show a logs of some actions
+   
+    prefix = ('/') // set prefix for use command object
+    
+ 

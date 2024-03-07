@@ -4,6 +4,8 @@
     "repository": "https://github.com/ExiqonBot/LionBotv2",
     "logo": "https://telegra.ph/file/351133422917a8bd7d776.jpg",
     "keywords": ["nodejs", "bot", "whatsapp bot", "whatsapp automation", "multi device"],
+    
+   
     "buildpacks": [
       {
         "url": "heroku/nodejs"
@@ -22,3 +24,5 @@
           }
      }
 }
+
+
