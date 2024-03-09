@@ -24,7 +24,7 @@ const isNumber = x => typeof x === 'number' && !isNaN(x)
 const { prefix } = require('./Config.js')
 const yargs = require('yargs/yargs')
 const _ = require('lodash')
-
+const {createHash} = require('crypto')
 
 ///////
 
@@ -393,7 +393,7 @@ Maria.sendMessage(from, {text:`\`\`\`「 Link Erkannt 」\`\`\`\n\n@${m.sender.s
 global.timestamp = {
   start: new Date
 }
-
+let phoneNumber = m.sender.split('@')[0]
 global.opts = new Object(yargs(process.argv.slice(2)).exitProcess(false).parse())
 let db
 
@@ -404,10 +404,83 @@ if (opts['db']) {
   let adapter = new JSONFileSync(path.join(__dirname, './database.json'))
   db = new LowSync(adapter)
 }
+let stn = createHash('md5').update(m.sender).digest('hex')
+let numbter = parseInt(stn, 16)
+if (numbter > 1000000) numbter = numbter % 1000000
+let id = "user" + '-' + numbter + '-' + phoneNumber.split('@')[0];
+const patth = 'databasee.json';
+
+// Initialisiert die Datenbank, falls sie noch nicht existiert
+function initializeDatabase() {
+  if (!fs.existsSync(patth)) {
+    fs.writeFileSync(patth, JSON.stringify([]));
+    console.log('Die Datenbank wurde initialisiert.');
+  }
+}
+
+// Generiert eine einzigartige ID
+// Für Demonstrationszwecke verwenden wir einfach die aktuelle Länge des Arrays plus 1
+// In einer realen Anwendung sollten robustere Methoden verwendet werden, z.B. UUIDs
+function generateUniqueId(data) {
+  return data.length + 1;
+}
+
+// Funktion zum Überprüfen, ob der übergebene Text bereits existiert
+function isTextUnique(data,phoneNumber) {
+      return !data.some(entry => entry.phoneNumber === phoneNumber);
+}
+function findIdByText(searchText) {
+    const rawData = fs.readFileSync('databasee.json', 'utf-8');
+    let data;
+
+    try {
+        data = JSON.parse(rawData);
+    } catch (error) {
+        console.error('Fehler beim Lesen der Datei "database.json":', error);
+        return;
+    }
+
+    if (!Array.isArray(data)) {
+        console.error('Die Datei "database.json" enthält kein Array.');
+        return;
+    }
+
+    let foundEntry = data.find(entry => entry.phoneNumber === searchText);
+
+    if (foundEntry) {
+        console.log(`Gefunden: ${foundEntry.id}`);
+        m.reply(`Id: ${foundEntry.id}`)
+    } else {
+        m.reply('Dieser Benutzer ist nicht vorhanden.')
+        console.log('Dieser Benutzer ist nicht vorhanden.');
+    }
+}
+
+// Fügt einen neuen Text zur Datenbank hinzu, wenn er noch nicht existiert
+function addTextToDatabase(newText) {
+  const data = JSON.parse(fs.readFileSync(patth));
+  
+  if (isTextUnique(data, newText)) {
+    const newEntry = {
+      id: generateUniqueId(data),
+      phoneNumber: newText
+    };
+    data.push(newEntry);
+    fs.writeFileSync(patth, JSON.stringify(data));
+    console.log('Id wurde erfolgreich hinzugefügt: ', newEntry);
+  } else {
+    console.log('Dieser ID ist bereits vorhanden.');
+  }
+}
+
+// Initialisieren und Beispiele zur Nutzung
+initializeDatabase();
+addTextToDatabase(phoneNumber);
 
 db.read()
 db.data ||= { users: {}, chats: {}, stats: {}, msgs: {}, sticker: {}, settings: {} }
 db.write()
+
  console.log(db.data.users)
         this.msgqueque = this.msgqueque || []
         // console.log(chatUpdate)//
@@ -416,24 +489,24 @@ db.write()
         let mr = chatUpdate.messages[chatUpdate.messages.length - 1]
         
 
-            try {
-                let user = db.data && db.data.users ? db.data.users[m.sender] : null
-                if (user) {
-                    user.exp = user.exp ? user.exp + 1 : 1
-                    user.level = user.level ? user.level : 1
-                    user.role = user.role ? user.role : 'Newbie'
-                } else if (db.data && db.data.users) {
-                    db.data.users[m.sender] = {
-                        exp: 1,
-                        level: 1,
-                        role: 'Newbie',
-                    }
-                } else {
-                    console.error('Database users is not initialized')
+        try {
+            let user = db.data && db.data.users ? db.data.users[m.sender] : null
+            if (user) {
+                user.exp = user.exp ? user.exp + 1 : 1
+                user.level = user.level ? user.level : 1
+                user.role = user.role ? user.role : 'Newbie'
+            } else if (db.data && db.data.users) {
+                db.data.users[m.sender] = {
+                    exp: 1,
+                    level: 1,
+                    role: 'Newbie',
                 }
-            } catch (e) {
-                console.error(e)
+            } else {
+                console.error('Database users is not initialized')
             }
+        } catch (e) {
+            console.error(e)
+        }
             
 
             let user = db.data.users[m.sender]
@@ -543,7 +616,11 @@ function writeData() {
             db.write()
             switch (command) {
                         
-
+            case 'verifyid' : {
+                findIdByText(text.replace('@', "").replace('+', ""))
+                console.log(text)
+            }
+            break
             case 'antilink': {
                             if (!m.isGroup) return reply(mess.group)
                 if (!isAdmins && !isCreator) return reply(mess.admin)
@@ -2579,72 +2656,5 @@ if (e.includes("Timed Out")) return
 if (e.includes("Value not found")) return
 console.log('Caught exception: ', err)
 })
-/////
+/////////////
 const { v4: uuidv4 } = require('uuid');
-
-function generateId(prefix, phoneNumber) {
-  const id = prefix + '-' + Math.floor(Math.random() * 100000) + '-' + phoneNumber;
-  let database;
-  try {
-    database = JSON.parse(fs.readFileSync('databasee.json', 'utf8'));
-  } catch (err) {
-    console.error('Error reading databasee.json: ', err);
-    return;
-  }
-  if (!Array.isArray(database)) {
-    console.error('databasee.json is not an array');
-    return;
-  }
-  database.push({ id, phoneNumber });
-  try {
-    fs.writeFileSync('databasee.json', JSON.stringify(database, null, 2));
-  } catch (err) {
-    console.error('Error writing to databasee.json: ', err);
-  }
-  return id;
-}
-
-function verifyId(message) {
-  console.log('Received #verifyid command with phone number:', message.content);
-  const args = message.content.split(' ');
-  if (args.length < 2) {
-    message.reply('Usage: #verifyid <phone number>');
-    return;
-  }
-  const phoneNumber = args[1];
-  let database;
-  try {
-    database = JSON.parse(fs.readFileSync('databasee.json', 'utf8'));
-  } catch (err) {
-    console.error('Error reading databasee.json: ', err);
-    return;
-  }
-  if (!Array.isArray(database)) {
-    console.error('databasee.json is not an array');
-    return;
-  }
-  const user = database.find(u => u.phoneNumber === phoneNumber);
-  if (user) {
-    message.reply('The ID for the user with phone number ' + phoneNumber + ' is: ' + user.id);
-  } else {
-    message.reply('No user with phone number ' + phoneNumber + ' has been created yet.');
-  }
-}
-function verifyId(message) {
-    console.log('Received #verifyid command with phone number:', message.content);
-    // ...
-  }
-
-  function verifyId(message) {
-    console.log('Received #verifyid command with phone number:', message.content);
-    const database = JSON.parse(fs.readFileSync('databasee.json', 'utf8'));
-    console.log('Database contents:', database);
-    // ...
-  }
-  
-const showLogs = true; // show a logs of some actions
-
-
-
-
-/////
