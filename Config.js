@@ -24,9 +24,9 @@ global.wm = "ღĹíͥőͣńͫღ botz inc."
 global.link = 'https://chat.whatsapp.com/EGqCW9HeVoq3W2KmgX3Ri0'
 
 //custom prefix
-global.prefa = ['#']
+global.prefa = ['/']
 global.sp = '⭔'
-process.prefix = ['#'] 
+process.prefix = ['/'] 
 
 
 //false=disable and true=enable
@@ -70,6 +70,6 @@ fs.watchFile(file, () => {
 
     showLogs: true, // show a logs of some actions
    
-    prefix = ('#') // set prefix for use command object
+    prefix = ('/') // set prefix for use command object
     
  

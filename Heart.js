@@ -1874,9 +1874,6 @@ ${readmore}
 │⊳ ⚙️ ${prefix}runtime
 │⊳ ⚙️ ${prefix}ping
 │⊳ ⚙️ ${prefix}owner
-└──────────⊰
-
-┌──⊰ _*⚙️Admins⚙️*_
 │⊳ ⚙️ ${prefix}verifyid
 └──────────⊰
 
@@ -1979,7 +1976,7 @@ reply(`Reply to a Video with Caption ${prefix + command}`)
 }
 break
                     case "xp": {
-                           Maria.sendMessage(m.chat,{text:`\n*${pushname}* \n\n*Level:* ${user.level}\n*Xp:* ${user.exp}\n*Role:* ${user.role}\n`}) 
+                           Maria.sendMessage(m.chat,{text:`\n┌──────────⊰\n│⊳🎟️User: ${pushname}\n│⊳🎟️Level: ${user.level}\n│⊳🎟️Xp: ${user.exp}\n│⊳🎟️Role: ${user.role}\n└──────────⊰`}) 
                     }
                     break
 case "couple":
