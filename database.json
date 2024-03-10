@@ -1,7 +1,7 @@
 {
   "users": {
     "4915678114564@s.whatsapp.net": {
-      "exp": 716,
+      "exp": 729,
       "level": 1003,
       "role": "FAST AN DER SPITZE"
     },
@@ -47,6 +47,11 @@
     },
     "158557660016774@lid": {
       "exp": 10,
+      "level": 1,
+      "role": "Warrior V"
+    },
+    "436502298906101@s.whatsapp.net": {
+      "exp": 20,
       "level": 1,
       "role": "Warrior V"
     }
