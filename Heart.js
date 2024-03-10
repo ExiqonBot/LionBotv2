@@ -2486,53 +2486,52 @@ https://chat.whatsapp.com/${response}
         
   case 'team': case 'mods': case 'dev': 
         
-  reply(` ━━━〈 🦁ღĹíőͥńͣ BͫØ₸ღ Team🦁 〉━━━
+  reply(`  *━━━〈 🦁ღĹíőͥńͣ BͫØ₸ღ Team🦁 〉━━━*
 
-  High Team :
+*High Team* :
+
+-👑 *Ɛ×ͥΐզͣօͫή* (Inhaber)
+-👑 *Cthulhu* (Inhaber)
+-👑 *𝕯𝖆𝖗𝖙𝖍 𝕾𝖎𝖉𝖎𝖔𝖚𝖘* (Inhaber)
+
+*Teamleitung* :
+
+-👀 *GoldtraderJD* (Leitung)
+-👀 *⸸ℑꈤᥴꪊ𝕭ꪊᦓ⸸* (Stv.Leitung)
+
+*Community-Manager* : 
+
+-🤵 *(Name)*
+
+*Tech-Team* :
+
+-💎 *Baron* (Leitung)
+-🕹️ *(Name)* 
+-🕹️ *(Name)*
+
+*Mod-Team* :
+
+-💎 *Cthulhu* (Leitung)
+-👮🏻‍♂️ *Toruto* (Mod)
+-👮🏻‍♂️ *(Name)* (Mod)
+
+
+*Support-Team* :
+
+-💎 *(Name)* (Leitung)
+-👷🏻‍♂️ *𝕾𝖆𝖒𝖚𝖗𝖆𝖎ᴳᵒᵈ* (Supporter)
+-👷🏻‍♂️ *(Name)* (Supporter)
+-👷🏻‍♂️ *(Name)* (Supporter)
+
+*Hoster-Team*:
+
+-💎 *Ɛ×ͥΐզͣօͫή* (Leitung)
+-💻 *Cthulhu* (Hoster)
+-💻 *GoldtraderJD* (Hoster)
+-💻 *⸸ℑꈤᥴꪊ𝕭ꪊᦓ⸸* (Hoster)
+-💻 *(Name)* (Hoster)
   
-  -👑 Ɛ×ͥΐզͣօͫή (Inhaber)
-  -👑 Cthulhu (Inhaber)
-  -👑 𝕯𝖆𝖗𝖙𝖍 𝕾𝖎𝖉𝖎𝖔𝖚𝖘 (Inhaber)
-  
-  Teamleitung :
-  
-  -👀 GoldtraderJD (Leitung)
-  -👀 ⸸ℑꈤᥴꪊ𝕭ꪊᦓ⸸ (Stv.Leitung)
-  
-  Community-Manager : 
-  
-  -🤵 (Name)
-  
-  Tech-Team :
-  
-  -💎 (Name) (Leitung)
-  -🕹️ (Name) 
-  -🕹️ (Name)
-  
-  Mod-Team :
-  
-  -💎 Cthulhu (Leitung)
-  -👮🏻‍♂️ Toruto (Mod)
-  -👮🏻‍♂️ (Name) (Mod)
-  
-  
-  Support-Team :
-  
-  -💎 (Name) (Leitung)
-  -👷🏻‍♂️ 𝕾𝖆𝖒𝖚𝖗𝖆𝖎ᴳᵒᵈ (Supporter)
-  -👷🏻‍♂️ (Name) (Supporter)
-  -👷🏻‍♂️ (Name) (Supporter)
-  
-  Hoster-Team:
-  
-  -💎 Ɛ×ͥΐզͣօͫή (Leitung)
-  -💻 Cthulhu (Hoster)
-  -💻 𝕯𝖆𝖗𝖙𝖍 𝕾𝖎𝖉𝖎𝖔𝖚𝖘 (Hoster)
-  -💻 GoldtraderJD (Hoster)
-  -💻 ⸸ℑꈤᥴꪊ𝕭ꪊᦓ⸸ (Hoster)
-  
-  \n📛 Wir bemühen uns, euch zeitnah zu antworten, und bitten höflich darum, kein Spam zu versenden. \n\n Um eine Supportanfrage zu stellen,benutzt bitte ${prefix}support gefolgt von eurem Anliegen.\n\n✨️Danke für eure Unterstützung,euer Lion-Bot Team.
-  * `)
+  \n📛 Wir bemühen uns, euch zeitnah zu antworten, und bitten höflich darum, kein Spam zu versenden. \n\n Um eine Supportanfrage zu stellen,benutzt bitte ${prefix}support gefolgt von eurem Anliegen.\n\n✨️Danke für eure Unterstützung,euer Lion-Bot Team. `)
         break   
     case 'addmod':
       case 'addowner':
