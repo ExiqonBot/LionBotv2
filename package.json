@@ -4,14 +4,17 @@
     "description": "WhatsApp Bot Using Nodejs",
     "main": "index.js",
     "type": "commonjs",
+    "type": "module",
     "directories": {
         "lib": "lib",
         "database": "database",
         "session": "session",
         "media": "media"
+        
     },
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js",
+        "test": "node test.mjs"
     },
     "author": "Ayush",
     "license": "MIT",

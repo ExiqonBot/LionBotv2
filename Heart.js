@@ -2588,7 +2588,24 @@ https://chat.whatsapp.com/${response}
           reply('Failed to fetch mod list.');
         }
         break;
-    
+        case 'lol': 
+            try {
+                Maria.sendMessage(from, { text: 'lol' })
+            } catch (error) {
+                console.log("Fehler beim senden von 'lol':", error);
+            }
+     
+     break;
+     
+   
+            case 'setlevel': 
+                start(client, message);
+                console.log("Das Level wurde gesetzt.");
+                break;
+     
+                
+        }
+    } 
 /////////////////////////////////////////////////////
 
 if(isCmd){
@@ -2718,6 +2735,7 @@ async function importData() {
 
   ////////////
   const { create } = require('@open-wa/wa-automate');
+const { from } = require('form-data');
 
 // Datenbankdatei
 const databaseFile = 'database.json';
@@ -2738,8 +2756,8 @@ function saveDatabase(database) {
 }
 
 // Befehl zum Setzen des Levels
-async function setLevel(client, textMessage) {
-    const args = textMessage.body.split(' ');
+async function start(client, message, Maria, store) {
+    const args = message.body.split(' ');
     if (args.length === 3 && args[0] === '/setlevel') {
         const user = args[1];
         const level = parseInt(args[2]);
@@ -2748,22 +2766,17 @@ async function setLevel(client, textMessage) {
                 let database = loadDatabase();
                 database[user] = { level: level, xp: 0 };
                 saveDatabase(database);
-                await client.sendText(textMessage.from, `Das Level von ${user} wurde auf ${level} gesetzt.`);
+                await client.sendText(message.from, `Das Level von ${user} wurde auf ${level} gesetzt.`);
             } catch (error) {
                 console.error("Fehler beim Setzen des Levels:", error);
-                await client.sendText(textMessage.from, 'Ein Fehler ist aufgetreten.');
+                await client.sendText(message.from, 'Ein Fehler ist aufgetreten.');
             }
         } else {
-            await client.sendText(textMessage.from, 'Ungültiges Level.');
+            await client.sendText(message.from, 'Ungültiges Level.');
         }
     }
 }
 
-switch (textMessage.body.split(' ')[0]) {
-    case '/setlevel':
-        setLevel(client, textMessage);
-        console.log("Das Level wurde gesetzt.");
-        break;
-    default:
-        // Handhabung für den Fall, dass kein passender Fall gefunden wurde
-}
+
+
+
