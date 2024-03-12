@@ -37,6 +37,7 @@
         "jsdom": "^22.1.0",
         "lodash": "^4.17.21",
         "moment-timezone": "^0.5.43",
+        "mongodb": "^6.5.0",
         "mongoose": "^8.2.1",
         "mysql": "^2.18.1",
         "node-fetch": "^2.6.11",

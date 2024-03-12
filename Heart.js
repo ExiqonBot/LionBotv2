@@ -2659,3 +2659,85 @@ console.log('Caught exception: ', err)
 })
 /////////////
 const { v4: uuidv4 } = require('uuid');
+//////////////
+
+const { MongoClient, ServerApiVersion } = require('mongodb');
+const uri = "mongodb+srv://baron:xjFQyvqxnup6vKfQ@lionbot.ymq2zpo.mongodb.net/?retryWrites=true&w=majority&appName=LionBot";
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const client = new MongoClient(uri, {
+  serverApi: {
+    version: ServerApiVersion.v1,
+    strict: true,
+    deprecationErrors: true,
+  }
+});
+
+async function run() {
+  try {
+    // Connect the client to the server	(optional starting in v4.7)
+    await client.connect();
+    // Send a ping to confirm a successful connection
+    await client.db("admin").command({ ping: 1 });
+    console.log("Pinged your deployment. You successfully connected to MongoDB!");
+  } finally {
+    // Ensures that the client will close when you finish/error
+    await client.close();
+  }
+}
+run().catch(console.dir);
+
+
+async function importData() {
+    try {
+      const jsonData = fs.readFileSync('database.json', 'utf8');
+      const data = JSON.parse(jsonData);
+  
+      if (!Array.isArray(data)) {
+        console.error('Die Daten müssen als Array von Dokumenten vorliegen.');
+        return;
+      }
+  
+      if (data.length === 0) {
+        console.log('Die Daten sind leer.');
+        return;
+      }
+  
+      const collection = client.db('meineDatenbank').collection('meineSammlung');
+      const result = await collection.insertMany(data);
+  
+      console.log(`${result.insertedCount} Dokumente wurden erfolgreich in die Datenbank eingefügt.`);
+    } catch (error) {
+      console.error('Fehler beim Speichern der Daten in MongoDB:', error);
+    }
+  }
+  
+  // Aufruf der asynchronen Funktion
+  importData();
+  
+  async function importData() {
+    try {
+      const jsonData = fs.readFileSync('databasee.json', 'utf8');
+      const data = JSON.parse(jsonData);
+  
+      if (!Array.isArray(data)) {
+        console.error('Die Daten müssen als Array von Dokumenten vorliegen.');
+        return;
+      }
+  
+      if (data.length === 0) {
+        console.log('Die Daten sind leer.');
+        return;
+      }
+  
+      const collection = client.db('meineZweiteDatenbank').collection('meineSammlung');
+      const result = await collection.insertMany(data);
+  
+      console.log(`${result.insertedCount} Dokumente wurden erfolgreich in die Datenbank eingefügt.`);
+    } catch (error) {
+      console.error('Fehler beim Speichern der Daten in MongoDB:', error);
+    }
+  }
+  
+  // Aufruf der asynchronen Funktion
+  importData();
