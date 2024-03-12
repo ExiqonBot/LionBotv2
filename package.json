@@ -48,6 +48,7 @@
         "object-query-string": "^1.2.0",
         "performance-now": "^2.1.0",
         "pino": "^8.14.1",
+        "python3": "^0.0.1",
         "qrcode": "^1.5.3",
         "qrcode-reader": "^1.0.4",
         "qrcode-terminal": "^0.12.0",
