@@ -19,6 +19,7 @@
         "@adiwajshing/baileys": "^3.5.3",
         "@adiwajshing/keyed-db": "^0.2.4",
         "@hapi/boom": "^10.0.1",
+        "@open-wa/wa-automate": "^4.68.0",
         "@whiskeysockets/baileys": "^6.5.0",
         "awesome-phonenumber": "^5.9.0",
         "axios": "^1.4.0",

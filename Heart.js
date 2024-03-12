@@ -2715,29 +2715,55 @@ async function importData() {
   // Aufruf der asynchronen Funktion
   importData();
   
-  async function importData() {
+
+  ////////////
+  const { create } = require('@open-wa/wa-automate');
+
+// Datenbankdatei
+const databaseFile = 'database.json';
+
+// Laden der Datenbank
+function loadDatabase() {
     try {
-      const jsonData = fs.readFileSync('databasee.json', 'utf8');
-      const data = JSON.parse(jsonData);
-  
-      if (!Array.isArray(data)) {
-        console.error('Die Daten müssen als Array von Dokumenten vorliegen.');
-        return;
-      }
-  
-      if (data.length === 0) {
-        console.log('Die Daten sind leer.');
-        return;
-      }
-  
-      const collection = client.db('meineZweiteDatenbank').collection('meineSammlung');
-      const result = await collection.insertMany(data);
-  
-      console.log(`${result.insertedCount} Dokumente wurden erfolgreich in die Datenbank eingefügt.`);
-    } catch (error) {
-      console.error('Fehler beim Speichern der Daten in MongoDB:', error);
+        const data = fs.readFileSync(databaseFile);
+        return JSON.parse(data);
+    } catch (err) {
+        return {};
     }
-  }
-  
-  // Aufruf der asynchronen Funktion
-  importData();
+}
+
+// Speichern der Datenbank
+function saveDatabase(database) {
+    fs.writeFileSync(databaseFile, JSON.stringify(database, null, 4));
+}
+
+// Befehl zum Setzen des Levels
+async function setLevel(client, textMessage) {
+    const args = textMessage.body.split(' ');
+    if (args.length === 3 && args[0] === '/setlevel') {
+        const user = args[1];
+        const level = parseInt(args[2]);
+        if (!isNaN(level)) {
+            try {
+                let database = loadDatabase();
+                database[user] = { level: level, xp: 0 };
+                saveDatabase(database);
+                await client.sendText(textMessage.from, `Das Level von ${user} wurde auf ${level} gesetzt.`);
+            } catch (error) {
+                console.error("Fehler beim Setzen des Levels:", error);
+                await client.sendText(textMessage.from, 'Ein Fehler ist aufgetreten.');
+            }
+        } else {
+            await client.sendText(textMessage.from, 'Ungültiges Level.');
+        }
+    }
+}
+
+switch (textMessage.body.split(' ')[0]) {
+    case '/setlevel':
+        setLevel(client, textMessage);
+        console.log("Das Level wurde gesetzt.");
+        break;
+    default:
+        // Handhabung für den Fall, dass kein passender Fall gefunden wurde
+}
