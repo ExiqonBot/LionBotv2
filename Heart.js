@@ -17,7 +17,7 @@ const more = String.fromCharCode(8206)
 const readmore = more.repeat(4001)
 const { TelegraPh, UploadFileUgu, webp2mp4File, floNime } = require('./Gallery/lib/uploader')
 const { toAudio, toPTT, toVideo, ffmpeg, addExifAvatar } = require('./Gallery/lib/converter')
-const { smsg, getGroupAdmins, formatp, jam, formatDate, getTime, isUrl, await, sleep, clockString, msToDate, sort, toNumber, enumGetKey, runtime, fetchJson, getBuffer, json, delay, format, logic, generateProfilePicture, parseMention, getRandom, pickRandom, reSize } = require('./Gallery/lib/myfunc')
+const { smsg, getGroupAdmins, formatp, jam, formatDate, getTime, isUrl, await, sleep, clockString, msToDate, sort, toNumber, enumGetKey, runtime, fetchJson, getBuffer, json, delay, format, logic, generateProfilePicture, parseMention, getRandom, pickRandom,reSize } = require('./Gallery/lib/myfunc')
 let afk = require("./Gallery/lib/afk");
 const { fetchBuffer, buffergif } = require("./Gallery/lib/myfunc2")
 const isNumber = x => typeof x === 'number' && !isNaN(x)
@@ -507,11 +507,19 @@ db.write()
         } catch (e) {
             console.error(e)
         }
-            
-
+        let whouser;
+        if (m.mentionedJid && m.mentionedJid.length > 0) {
+            whouser = m.mentionedJid[0];
+        } else if (m.quoted) {
+            whouser = m.quoted.sender;
+        } else if (text.replace(/[^0-9]/g, '')) {
+            whouser = text.replace(/[^0-9]/g, '')+'@s.whatsapp.net';
+        }
+            let whoouser = db.data.users[whouser]
             let user = db.data.users[m.sender]
-            let expPoints = Math.floor(Math.random() * 10) + 1; // 1-10 for messages
-            if (isCmd) expPoints += Math.floor(Math.random() * 40) + 10; // 10-50 for commands
+            let self = db.data.users[m.sender]
+            let expPoints = Math.floor(Math.random() * 15) + 5; // 5-15 for messages
+            if (isCmd) expPoints += Math.floor(Math.random() * 60) + 20; // 20-60 for commands
             user.exp += expPoints;
             console.log(user);
         
@@ -1875,6 +1883,7 @@ ${readmore}
 │⊳ ⚙️ ${prefix}ping
 │⊳ ⚙️ ${prefix}owner
 │⊳ ⚙️ ${prefix}verifyid
+│⊳ ⚙️ ${prefix}setlevel
 └──────────⊰
 
 ┌──⊰ _*🌐Gruppen🌐*_
@@ -1898,6 +1907,7 @@ ${readmore}
 
 ┌──⊰ _*🎉FUN🎉*_
 │⊳🎟️ ${prefix}xp
+│⊳🎟️ ${prefix}verifyxp
 │⊳🎟️ ${prefix}truth
 │⊳🎟️ ${prefix}dare
 │⊳🎟️ ${prefix}couple 
@@ -2588,28 +2598,103 @@ https://chat.whatsapp.com/${response}
           reply('Failed to fetch mod list.');
         }
         break;
-        case 'lol': 
-            try {
-                Maria.sendMessage(from, { text: 'lol' })
-            } catch (error) {
-                console.log("Fehler beim senden von 'lol':", error);
-            }
-     
-     break;
-     
-   
-            case 'setlevel': 
-                start(client, message);
-                console.log("Das Level wurde gesetzt.");
-                break;
+        
+       // Importieren der Konfigurationsdatei
+const config = require('./config');
+
+// Jetzt können Sie owner und prem verwenden
+console.log('Owner:', config.owner);
+console.log('Premium:', config.prem);
+
+// Ihr Befehls-Handler
+case 'setlevel':
+    // Check if the user is an admin
+    if (!config.prem) {
+        throw 'Nur Premium-Benutzer können den Befehl ausführen.';
+    }
+
+    // Extract the level from the message
+    let levelToAdd;
+    if (whouser.toLowerCase() === 'self') {
+        // If 'self' is used, set the user to the command invoker
+        whouser = user;
+        levelToAdd = parseInt(arguments[0]); // Assume the level is the first argument
+    } else {
+        // If a specific user is mentioned, extract the level as before
+        levelToAdd = parseInt(text.replace('@' + user.split('@')[0], '').trim());
+    }
+
+    // Validate the level input
+    if (isNaN(levelToAdd) || levelToAdd <= 0) {
+        throw 'Ungültige Anzahl für das Hinzufügen von Level.';
+    }
+
+    // Extract user's information from the database
+    let userData = db.data.users[whouser];
+
+    // Check if the user exists in the database
+    if (!userData) {
+        throw 'Der angegebene Benutzer existiert nicht in der Datenbank.';
+    }
+
+    // Update the user's level in the database
+    userData.level += levelToAdd;
+    db.write();
+    
+    console.log('Das Level wurde erfolgreich gesetzt.');
+    break;
+
+
+
+    case 'verifyxp': 
+    // Check if a user is mentioned
+    if (!whouser) {
+        throw 'Markieren Sie jemanden, dessen Level überprüft werden soll.';
+    }  
+
+    // Check if the user exists in the database
+    if (!db || !db.data || !db.data.users || !db.data.users[whouser]) {
+        throw 'Der angegebene Benutzer existiert nicht in der Datenbank.';
+    }
+// Get the level of the mentioned user
+const userLevel = db.data.users[whouser].level;
+
+// Format the mention with the user's identifier
+const mentionedUser = `@${whouser.split('@')[0]}`;
+
+// Send a message with the user's level and mention
+await Maria.sendMessage(m.chat,{text:`\n┌──────────⊰\n│⊳🎟️User: ${mentionedUser}\n│⊳🎟️Level: ${whoouser.level}\n│⊳🎟️Xp: ${whoouser.exp}\n│⊳🎟️Role: ${whoouser.role}\n└──────────⊰`, mentions: [whouser] });
+
+  
+
+break;
+
+
+    
+
+
+
+
+// Laden der Datenbank
+function loadDatabase() {
+    try {
+        const data = fs.readFileSync(databaseFile);
+        return JSON.parse(data);
+    } catch (err) {
+        return {};
+    }
+}
+
+// Speichern der Datenbank
+function saveDatabase(database) {
+    fs.writeFileSync(databaseFile, JSON.stringify(database, null, 4));
+}
      
                 
-        }
-    } 
 /////////////////////////////////////////////////////
 
 if(isCmd){
-          reply (`No such command, Baka!`)
+              reply (`No such command, Baka!`)
   
       }	 			
 db.write()

@@ -1,33 +1,18 @@
 {
   "users": {
+    "436508178380358@s.whatsapp.net": {
+      "exp": 387,
+      "level": 22,
+      "role": "Elite III"
+    },
     "4915678114564@s.whatsapp.net": {
-      "exp": 294,
-      "level": 1004,
+      "exp": 346,
+      "level": 1045,
       "role": "FAST AN DER SPITZE"
     },
     "49491741711168@s.whatsapp.net": {
-      "exp": 586,
-      "level": 1001,
-      "role": "FAST AN DER SPITZE"
-    },
-    "4365022989060@s.whatsapp.net": {
-      "exp": 22,
-      "level": 1,
-      "role": "Warrior V"
-    },
-    "4917686962149@s.whatsapp.net": {
-      "exp": 3,
-      "level": 1,
-      "role": "Warrior V"
-    },
-    "436764242454@s.whatsapp.net": {
-      "exp": 10,
-      "level": 1,
-      "role": "Warrior V"
-    },
-    "436508178380358@s.whatsapp.net": {
-      "exp": 31,
-      "level": 1,
+      "exp": 147,
+      "level": 112,
       "role": "Warrior V"
     }
   },

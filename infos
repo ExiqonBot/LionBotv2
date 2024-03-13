@@ -1,2 +1,62 @@
 617 command 
 endet bei 2600
+
+ case 'setlevel':
+                if isAdmins
+                let who = whouser
+if (!who) throw '*Markieren sie jemand*'
+let teeext = text.replace('@' + who.split`@`[0], '').trim()
+if (!teeext) throw '*Geben sie eine Anzahl die sie hinzuhügen wollen*'
+if (isNaN(teeext)) throw '*nur zahlen*'
+if (exp < 1) throw '*Nur zahlen*'
+            let hrs = parseInt(teeext)
+console.log(hrs)
+            db.data.users[who].level += hrs
+
+console.log(user.level)
+db.write()
+                console.log("Das Level wurde gesetzt.");
+                break;
+
+
+                await Maria.sendMessage(m.chat,{text:`Das Level von ${mentionedUser} ist auf ${userLevel}` , mentions: [whouser] });
+
+
+
+
+
+
+
+
+
+
+
+                case 'setlevel':
+    // Check if the user is an admin
+    if (!isAdmins) {
+        throw 'Nur Administratoren können den Befehl ausführen.';
+    }
+
+    // Check if a user is mentioned
+    if (!whouser) {
+        throw 'Markieren Sie jemanden, dessen Level gesetzt werden soll.';
+    }
+
+    // Extract the level from the message
+    const levelToAdd = parseInt(text.replace('@' + whouser.split('@')[0], '').trim());
+
+    // Validate the level input
+    if (isNaN(levelToAdd) || levelToAdd <= 0) {
+        throw 'Ungültige Anzahl für das Hinzufügen von Level.';
+    }
+
+    // Update the user's level in the database
+    if (!db.data.users[whouser]) {
+        throw 'Der angegebene Benutzer existiert nicht in der Datenbank.';
+    }
+
+    db.data.users[whouser].level += levelToAdd;
+    db.write();
+    
+    console.log('Das Level wurde erfolgreich gesetzt.');
+    break;

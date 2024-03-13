@@ -4,7 +4,9 @@ const { timingSafeEqual } = require('crypto');
 
 //contact details
 global.Owner = ['49491741711168', '491773379918', '436504919106000'];
+global.owner = ['49491741711168', '491773379918', '436504919106000'];
 global.ownernumber = ['49491741711168', '491773379918', '436504919106000'];
+global.prem = ['4365022989060'];
 global.ownername = "ღƐ×ͥΐզͣօͫήღ"//owner name
 global.ytname = "YT: Soon"
 global.socialm = "GitHub: ExiqonBot"
@@ -66,6 +68,17 @@ fs.watchFile(file, () => {
 })
 
 //ka
+// config.js
+
+const config = {
+    owner: ['49491741711168', '491773379918', '436504919106000'],
+    prem: ['49491741711168', '491773379918', '436504919106000']
+};
+
+module.exports = config;
+
+
+
 
 
     showLogs: true, // show a logs of some actions
