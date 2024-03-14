@@ -2600,7 +2600,7 @@ https://chat.whatsapp.com/${response}
         break;
         
        // Importieren der Konfigurationsdatei
-const config = require('./config');
+const config = require('./Config');
 
 // Jetzt können Sie owner und prem verwenden
 console.log('Owner:', config.owner);

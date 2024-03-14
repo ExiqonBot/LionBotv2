@@ -1,5 +1,5 @@
 {
-    "name": "Maria-Bot",
+    "name": "mariabot",
     "version": "1.0.0",
     "description": "WhatsApp Bot Using Nodejs",
     "main": "index.js",
@@ -11,7 +11,9 @@
         "media": "media"
     },
     "scripts": {
-        "start": "node index.js"
+        "start": "node index.js",
+        "test": "node test.cjs"
+
     },
     "author": "Ayush",
     "license": "MIT",
