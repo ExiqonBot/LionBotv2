@@ -12,7 +12,8 @@
     },
     "scripts": {
         "start": "node index.js",
-        "test": "node test.cjs"
+        "test": "node test.cjs",
+        "conv": "node Conv.js"
 
     },
     "author": "Ayush",
