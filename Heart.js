@@ -2536,7 +2536,7 @@ https://chat.whatsapp.com/${response}
 
 *Support-Team* :
 
--💎 *(Name)* (Leitung)
+-💎 *Takyma* (Leitung)
 -👷🏻‍♂️ *𝕾𝖆𝖒𝖚𝖗𝖆𝖎ᴳᵒᵈ* (Supporter)
 -👷🏻‍♂️ *(Name)* (Supporter)
 -👷🏻‍♂️ *(Name)* (Supporter)
