@@ -80,8 +80,6 @@ module.exports = config;
 
 
 
-
-    showLogs: true, // show a logs of some actions
    
 
     prefix = ('#') // set prefix for use command object
