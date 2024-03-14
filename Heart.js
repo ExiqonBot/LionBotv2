@@ -2762,11 +2762,9 @@ console.log('Caught exception: ', err)
 /////////////
 const { v4: uuidv4 } = require('uuid');
 //////////////
-
 const { MongoClient, ServerApiVersion } = require('mongodb');
-const uri = "mongodb+srv://baron:xjFQyvqxnup6vKfQ@lionbot.ymq2zpo.mongodb.net/?retryWrites=true&w=majority&appName=LionBot";
 
-// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+const uri = "mongodb+srv://baron:xjFQyvqxnup6vKfQ@lionbot.ymq2zpo.mongodb.net/?retryWrites=true&w=majority&appName=LionBot";
 const client = new MongoClient(uri, {
   serverApi: {
     version: ServerApiVersion.v1,
@@ -2777,91 +2775,45 @@ const client = new MongoClient(uri, {
 
 async function run() {
   try {
-    // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
-    // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } finally {
-    // Ensures that the client will close when you finish/error
-    await client.close();
+  } catch (error) {
+    console.error('Failed to connect to MongoDB:', error);
   }
 }
-run().catch(console.dir);
-
 
 async function importData() {
-    try {
-      const jsonData = fs.readFileSync('database.json', 'utf8');
-      const data = JSON.parse(jsonData);
-  
-      if (!Array.isArray(data)) {
-        console.error('Die Daten müssen als Array von Dokumenten vorliegen.');
-        return;
-      }
-  
-      if (data.length === 0) {
-        console.log('Die Daten sind leer.');
-        return;
-      }
-  
-      const collection = client.db('meineDatenbank').collection('meineSammlung');
-      const result = await collection.insertMany(data);
-  
-      console.log(`${result.insertedCount} Dokumente wurden erfolgreich in die Datenbank eingefügt.`);
-    } catch (error) {
-      console.error('Fehler beim Speichern der Daten in MongoDB:', error);
+  try {
+    const jsonData = fs.readFileSync('databasee.json', 'utf8');
+    const data = JSON.parse(jsonData);
+    console.log('Trying to read database.');
+
+    if (!Array.isArray(data)) {
+      console.error('Data must be an array of documents.');
+      return;
     }
+
+    if (data.length === 0) {
+      console.log('Data is empty.');
+      return;
+    }
+
+    const collection = client.db('meineDatenbank').collection('meineSammlung');
+    const result = await collection.insertMany(data);
+
+    console.log(`${result.insertedCount} documents successfully inserted into the database.`);
+  } catch (error) {
+    console.error('Error saving data to MongoDB:', error);
   }
-  
-  // Aufruf der asynchronen Funktion
-  importData();
-  
-
-  ////////////
-  const { create } = require('@open-wa/wa-automate');
-const { from } = require('form-data');
-
-// Datenbankdatei
-const databaseFile = 'database.json';
-
-// Laden der Datenbank
-function loadDatabase() {
-    try {
-        const data = fs.readFileSync(databaseFile);
-        return JSON.parse(data);
-    } catch (err) {
-        return {};
-    }
 }
 
-// Speichern der Datenbank
-function saveDatabase(database) {
-    fs.writeFileSync(databaseFile, JSON.stringify(database, null, 4));
+async function main() {
+  await run();
+  await importData();
+  await client.close();
 }
 
-// Befehl zum Setzen des Levels
-async function start(client, message, Maria, store) {
-    const args = message.body.split(' ');
-    if (args.length === 3 && args[0] === '/setlevel') {
-        const user = args[1];
-        const level = parseInt(args[2]);
-        if (!isNaN(level)) {
-            try {
-                let database = loadDatabase();
-                database[user] = { level: level, xp: 0 };
-                saveDatabase(database);
-                await client.sendText(message.from, `Das Level von ${user} wurde auf ${level} gesetzt.`);
-            } catch (error) {
-                console.error("Fehler beim Setzen des Levels:", error);
-                await client.sendText(message.from, 'Ein Fehler ist aufgetreten.');
-            }
-        } else {
-            await client.sendText(message.from, 'Ungültiges Level.');
-        }
-    }
-}
-
-
+main().catch(console.error);
 
 

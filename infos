@@ -60,3 +60,30 @@ db.write()
     
     console.log('Das Level wurde erfolgreich gesetzt.');
     break;
+
+
+
+
+
+
+    // Befehl zum Setzen des Levels
+async function start(client, message, Maria, store) {
+    const args = message.body.split(' ');
+    if (args.length === 3 && args[0] === '/setlevel') {
+        const user = args[1];
+        const level = parseInt(args[2]);
+        if (!isNaN(level)) {
+            try {
+                let database = loadDatabase();
+                database[user] = { level: level, xp: 0 };
+                saveDatabase(database);
+                await client.sendText(message.from, `Das Level von ${user} wurde auf ${level} gesetzt.`);
+            } catch (error) {
+                console.error("Fehler beim Setzen des Levels:", error);
+                await client.sendText(message.from, 'Ein Fehler ist aufgetreten.');
+            }
+        } else {
+            await client.sendText(message.from, 'Ungültiges Level.');
+        }
+    }
+}
