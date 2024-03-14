@@ -87,3 +87,22 @@ async function start(client, message, Maria, store) {
         }
     }
 }
+
+
+
+
+
+/////////////
+
+ case "support":
+     
+        let tex = `Vielen Dank für deine Anfrage, ein Supporter wird sich so schnell wie möglich bei dir melden. Hier ist der Link zur Supportgruppe:
+
+https://chat.whatsapp.com/KSM8yCpBHGUGkb2f3zfGz7`
+
+await Maria.sendMessage(m.chat, { text: `${tex}` });
+
+let teks = `── 「 Hallo Team 」 ──\n\n*Eine Anfrage von* 📝 :\n *ID*: ${id} \n*User*: Wa.me/${m.sender} \n*Nachricht*: ${text} \n`;
+
+        await Maria.sendMessage("120363198299068646@g.us",{ text: teks, gifPlayback: true }, { quoted: m });
+        break

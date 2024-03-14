@@ -36,7 +36,7 @@
         "human-readable": "^0.2.1",
         "jimp": "^0.16.13",
         "jsdom": "^22.1.0",
-        "libphonenumber-js": "^1.10.54",
+        "libphonenumber-js": "^1.10.58",
         "lodash": "^4.17.21",
         "lowdb": "^7.0.1",
         "moment-timezone": "^0.5.43",

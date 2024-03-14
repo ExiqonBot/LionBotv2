@@ -1,4 +1,4 @@
-const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType } = require('@whiskeysockets/baileys')
+const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType, PHONENUMBER_MCC } = require('@whiskeysockets/baileys')
 const os = require('os')
 const mysql = require('mysql');
 const fs = require('fs')
@@ -8,6 +8,7 @@ const util = require('util')
 const chalk = require('chalk')
 const moment = require('moment-timezone')
 const speed = require('performance-now')
+const { parsePhoneNumberFromString } = require('libphonenumber-js');
 const ms = toMs = require('ms')
 const axios = require('axios')
 const fetch = require('node-fetch')
@@ -21,26 +22,19 @@ const { smsg, getGroupAdmins, formatp, jam, formatDate, getTime, isUrl, await, s
 let afk = require("./Gallery/lib/afk");
 const { fetchBuffer, buffergif } = require("./Gallery/lib/myfunc2")
 const isNumber = x => typeof x === 'number' && !isNaN(x)
-const { prefix } = require('./Config.js')
+const { prefix , config, Owner} = require('./Config.js')
 const yargs = require('yargs/yargs')
 const _ = require('lodash')
 const {createHash} = require('crypto')
 
-///////
-
-const { Connection, Config } = require('zwa')
-
-const config = Config({
-    /*  */
-})
-
-// must async function ...
-const connect = async () => {
-    const ZWA = new Connection({ config })
-    await ZWA.initial(connect) // fill with function name
+// Beispiel für die Verwendung von config
+function Maria() {
+  // Hier wird config verwendet
+  console.log(config);
 }
 
-connect()
+// Stelle sicher, dass Maria erst nach der Initialisierung von config aufgerufen wird
+Maria()
 
 
 /////log
@@ -111,6 +105,7 @@ module.exports = Maria = async (Maria, m, msg, chatUpdate, store) => {
         const itsMe = m.sender == botNumber ? true : false
         
         const sender = m.sender
+        const nnumber = m.sender
         const text = q = args.join(" ")
         const from = m.key.remoteJid
         const fatkuns = (m.quoted || m)
@@ -142,6 +137,8 @@ module.exports = Maria = async (Maria, m, msg, chatUpdate, store) => {
         const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
         const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
         const groupOwner = m.isGroup ? groupMetadata.owner : ''
+        const isbotOwner = require('./Config.js').botowner
+        const userid = require('./databasee.json').id
         const mentionByTag = type == 'extendedTextMessage' && m.message.extendedTextMessage.contextInfo != null ? m.message.extendedTextMessage.contextInfo.mentionedJid : []
         const mentionByReply = type == 'extendedTextMessage' && m.message.extendedTextMessage.contextInfo != null ? m.message.extendedTextMessage.contextInfo.participant || '' : ''
         const isGroupOwner = m.isGroup ? (groupOwner ? groupOwner : groupAdmins).includes(m.sender) : false
@@ -1565,17 +1562,28 @@ Maria.sendMessage(from, { react: { text: "🤖", key: m.key }})
 
         Maria.sendMessage(m.chat, { image: { url: "./Gallery/ch1.jpg" }, caption: txxt, gifPlayback: true }, { quoted: m });
         break
-      case "support":
+
+        const { parsePhoneNumberFromString } = require('libphonenumber-js');
+
+        case "support":
      
         let tex = `Vielen Dank für deine Anfrage, ein Supporter wird sich so schnell wie möglich bei dir melden. Hier ist der Link zur Supportgruppe:
 
 https://chat.whatsapp.com/KSM8yCpBHGUGkb2f3zfGz7`
 
-        await Maria.sendMessage(m.chat,{ text: `${tex}` },);
- let teks = `── 「 Hallo Team 」 ──\n\n*Eine Anfrage von* 📝 : wa.me/${m.sender} 🔢\n*Nachricht*: ${text} \n`
-        await Maria.sendMessage("120363198299068646@g.us",{ text: teks, gifPlayback: true }, { quoted: m });
-        break
+await Maria.sendMessage(m.chat, { text: tex });
 
+let nnumber = m.sender;
+
+if (m.sender.endsWith("@s.whatsapp.net")) {
+    nnumber = m.sender.replace(/[^0-9]/g, '');
+}
+
+let teks = `── 「 Hallo Team 」 ──\n\n*Eine Anfrage von* 📝 :\n*ID*: ${id} \n*User*: Wa.me/${nnumber} \n*Nachricht*: ${text} \n`;
+
+await Maria.sendMessage("120363198299068646@g.us", { text: teks, gifPlayback: true }, { quoted: m });
+break
+        
       case "info":
             Maria.sendMessage(from, { react: { text: "ℹ️", key: m.key }}) 
         let ifx = `🌟『ღĹíőͥńͣ BͫØ₸ღ』🌟
@@ -2598,51 +2606,39 @@ https://chat.whatsapp.com/${response}
           reply('Failed to fetch mod list.');
         }
         break;
-        
-       // Importieren der Konfigurationsdatei
-const config = require('./Config');
-
-// Jetzt können Sie owner und prem verwenden
-console.log('Owner:', config.owner);
-console.log('Premium:', config.prem);
 
 // Ihr Befehls-Handler
+
 case 'setlevel':
     // Check if the user is an admin
-    if (!config.prem) {
-        throw 'Nur Premium-Benutzer können den Befehl ausführen.';
+    if (!isbotOwner) {
+        throw 'Nur Administratoren können den Befehl ausführen.';
+    }
+
+    // Check if a user is mentioned
+    if (!whouser) {
+        throw 'Markieren Sie jemanden, dessen Level gesetzt werden soll.';
     }
 
     // Extract the level from the message
-    let levelToAdd;
-    if (whouser.toLowerCase() === 'self') {
-        // If 'self' is used, set the user to the command invoker
-        whouser = user;
-        levelToAdd = parseInt(arguments[0]); // Assume the level is the first argument
-    } else {
-        // If a specific user is mentioned, extract the level as before
-        levelToAdd = parseInt(text.replace('@' + user.split('@')[0], '').trim());
-    }
+    const levelToAdd = parseInt(text.replace('@' + whouser.split('@')[0], '').trim());
 
     // Validate the level input
     if (isNaN(levelToAdd) || levelToAdd <= 0) {
         throw 'Ungültige Anzahl für das Hinzufügen von Level.';
     }
 
-    // Extract user's information from the database
-    let userData = db.data.users[whouser];
-
-    // Check if the user exists in the database
-    if (!userData) {
+    // Update the user's level in the database
+    if (!db.data.users[whouser]) {
         throw 'Der angegebene Benutzer existiert nicht in der Datenbank.';
     }
 
-    // Update the user's level in the database
-    userData.level += levelToAdd;
+    db.data.users[whouser].level += levelToAdd;
     db.write();
     
     console.log('Das Level wurde erfolgreich gesetzt.');
     break;
+
 
 
 
@@ -2761,6 +2757,7 @@ console.log('Caught exception: ', err)
 })
 /////////////
 const { v4: uuidv4 } = require('uuid');
+const { parsePhoneNumber } = require('awesome-phonenumber');
 ///////hinzergrund
 
 // Funktion zum Starten eines Prozesses im Hintergrund
