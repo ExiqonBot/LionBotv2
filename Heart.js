@@ -481,7 +481,7 @@ db.read()
 db.data ||= { users: {}, chats: {}, stats: {}, msgs: {}, sticker: {}, settings: {} }
 db.write()
 
- console.error(db.data.users)
+ console.log(db.data.users)
         this.msgqueque = this.msgqueque || []
         // console.log(chatUpdate)//
         if (!chatUpdate) return
