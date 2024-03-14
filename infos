@@ -106,3 +106,6 @@ let teks = `── 「 Hallo Team 」 ──\n\n*Eine Anfrage von* 📝 :\n *ID*
 
         await Maria.sendMessage("120363198299068646@g.us",{ text: teks, gifPlayback: true }, { quoted: m });
         break
+
+
+        e)v4HgW-8hL7-Vs66O
