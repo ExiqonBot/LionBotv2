@@ -13,8 +13,8 @@
   },
   {
     "id": "49491741711168@s.whatsapp.net",
-    "exp": 542,
-    "level": 1030,
+    "exp": 730,
+    "level": 1700,
     "role": "FAST AN DER SPITZE"
   },
   {
@@ -37,9 +37,9 @@
   },
   {
     "id": "4365022989060@s.whatsapp.net",
-    "exp": 0,
-    "level": 16999,
-    "role": "EIF FAKE OWNER"
+    "exp": 737,
+    "level": 1000000,
+    "role": "Secret Role: Baron"
   },
   {
     "id": "4915213293288@s.whatsapp.net",
@@ -61,7 +61,7 @@
   },
   {
     "id": "436502298906101@s.whatsapp.net",
-    "exp": 470,
+    "exp": 710,
     "level": 12,
     "role": "Warrior II"
   },
@@ -73,7 +73,7 @@
   },
   {
     "id": "40792820770@s.whatsapp.net",
-    "exp": 208,
+    "exp": 429,
     "level": 57,
     "role": "Grand Master II"
   },
@@ -331,19 +331,19 @@
   },
   {
     "id": "40720988835@s.whatsapp.net",
-    "exp": 589,
+    "exp": 747,
     "level": 1,
     "role": "Warrior V"
   },
   {
     "id": "4915679149843@s.whatsapp.net",
-    "exp": 613,
+    "exp": 876,
     "level": 1,
     "role": "Warrior V"
   },
   {
     "id": "436502192839901@s.whatsapp.net",
-    "exp": 98,
+    "exp": 130,
     "level": 2,
     "role": "Warrior V"
   },
@@ -397,7 +397,7 @@
   },
   {
     "id": "436502192839744@s.whatsapp.net",
-    "exp": 365,
+    "exp": 410,
     "level": 1,
     "role": "Warrior V"
   },
@@ -589,7 +589,7 @@
   },
   {
     "id": "491742739179@s.whatsapp.net",
-    "exp": 209,
+    "exp": 637,
     "level": 1,
     "role": "Warrior V"
   },
@@ -817,8 +817,8 @@
   },
   {
     "id": "40737249998@s.whatsapp.net",
-    "exp": 0,
-    "level": 101,
+    "exp": 38,
+    "level": 102,
     "role": "Legende"
   },
   {
@@ -1093,7 +1093,7 @@
   },
   {
     "id": "436502192839712@s.whatsapp.net",
-    "exp": 0,
+    "exp": 117,
     "level": 2,
     "role": "Warrior V"
   },
@@ -1171,7 +1171,7 @@
   },
   {
     "id": "436502192839910@s.whatsapp.net",
-    "exp": 140,
+    "exp": 207,
     "level": 1,
     "role": "Warrior V"
   },
@@ -1184,6 +1184,12 @@
   {
     "id": "4917655733635@s.whatsapp.net",
     "exp": 268,
+    "level": 1,
+    "role": "Warrior V"
+  },
+  {
+    "id": "2348147037535@s.whatsapp.net",
+    "exp": 108,
     "level": 1,
     "role": "Warrior V"
   }

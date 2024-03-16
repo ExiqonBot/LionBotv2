@@ -607,13 +607,16 @@ function writeData() {
                                                                                                                                                                                                                                                                                     : ((user.level >= 94) && (user.level <= 97)) ? 'Mythic III'
                                                                                                                                                                                                                                                                                             : ((user.level >= 97) && (user.level <= 100)) ? 'Mythic II'
                                                                                                                                                                                                                                                                                                     : ((user.level >= 100) && (user.level <= 500)) ? 'Legende'
+                                                                                                                                                                                                                                                                                                    : ((user.level >= 17000) && (user.level <= 20000)) ? 'Ultra FAke OwNeR'
+                                                                                                                                                                                                                                                                                                                                         : ((user.level >= 1000000) && (user.level <= 1000000)) ? 'Secret Role--> Baron'
 
                                                                                                                                                                                                                                                                                                             : ((user.level >= 500) && (user.level <= 9999)) ? 'FAST AN DER SPITZE'
 
                                                                                                                                                                                                                                                                                                                     : ((user.level >= 10000) && (user.level <= 17000)) ? 'EIF FAKE OWNER' : 'EIF FAKE OWNER'
-                    user.role = rolee
-                   
-            db.write()
+                                                                                                                                                                                                                                                                                                                               
+            
+                                                                                                                                                                                                                                                                                                                                         user.role = rolee
+                                                                                                                                                                                                                                                                                                                                         db.write()
             switch (command) {
                         
             case 'userid' : {
