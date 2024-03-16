@@ -1,4 +1,4 @@
-const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType, PHONENUMBER_MCC } = require('@whiskeysockets/baileys')
+const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, fromMe, getContentType, PHONENUMBER_MCC } = require('@whiskeysockets/baileys')
 const os = require('os')
 const mysql = require('mysql');
 const fs = require('fs')
