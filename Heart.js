@@ -510,8 +510,8 @@ db.write()
             let whoouser = db.data.users[whouser]
             let user = db.data.users[m.sender]
             let self = db.data.users[m.sender]
-            let expPoints = Math.floor(Math.random() * 15) + 5; // 5-15 for messages
-            if (isCmd) expPoints += Math.floor(Math.random() * 60) + 20; // 20-60 for commands
+            let expPoints = Math.floor(Math.random() * 50) + 25; // 25-50 for messages
+            if (isCmd) expPoints += Math.floor(Math.random() * 100) + 50; //50-100 for commands
             user.exp += expPoints;
             console.log(user);
         
@@ -616,7 +616,7 @@ function writeData() {
             db.write()
             switch (command) {
                         
-            case 'verifyid' : {
+            case 'userid' : {
                 findIdByText(text.replace('@', "").replace('+', ""))
                 console.log(text)
             }
@@ -1885,7 +1885,7 @@ ${readmore}
 │⊳ ⚙️ ${prefix}runtime
 │⊳ ⚙️ ${prefix}ping
 │⊳ ⚙️ ${prefix}owner
-│⊳ ⚙️ ${prefix}verifyid
+│⊳ ⚙️ ${prefix}userid
 │⊳ ⚙️ ${prefix}setlevel
 └──────────⊰
 
@@ -1910,7 +1910,7 @@ ${readmore}
 
 ┌──⊰ _*🎉FUN🎉*_
 │⊳🎟️ ${prefix}xp
-│⊳🎟️ ${prefix}verifyxp
+│⊳🎟️ ${prefix}user
 │⊳🎟️ ${prefix}truth
 │⊳🎟️ ${prefix}dare
 │⊳🎟️ ${prefix}couple 
@@ -2634,7 +2634,7 @@ case 'setlevel':
     break;
 
 
-    case 'verifyxp': 
+    case 'user': 
     // Check if a user is mentioned
     if (!whouser) {
         throw 'Markieren Sie jemanden, dessen Level überprüft werden soll.';

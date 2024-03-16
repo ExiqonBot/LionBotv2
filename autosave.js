@@ -52,9 +52,6 @@ async function importData() {
     }
 
     console.log(`${totalCount} documents successfully inserted into the database.`);
-
-    // Starte den Cron-Job erneut, nachdem der Importvorgang abgeschlossen ist
-    job.start();
   } catch (error) {
     console.error('Error saving data to MongoDB:', error);
   }
@@ -66,16 +63,13 @@ async function main() {
   await client.close();
 }
 
-// Cron-Job für die einmalige Ausführung der Funktion alle 5 Minuten
-const job = new cron.CronJob('1 * * * * *', async () => {
+// Cron-Job für die periodische Ausführung der Funktion jede Minute
+const job = new cron.CronJob('0 * * * * *', async () => {
   console.log('Automatisches Speichern gestartet...');
-  // Stoppe den Cron-Job, während der Importvorgang läuft
-  job.stop();
   await importData();
 });
 
-// Starte den Cron-Job
+// Starten des Cron-Jobs
 job.start();
 
-// Führe main() einmalig aus
 main().catch(console.error);

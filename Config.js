@@ -41,7 +41,7 @@ global.autobio = false //auto update bio
 global.anti212 = true //auto block +212
 global.autoread_status = false //auto view status/story
 global.multiplier = 100
-global.verifyId = true
+global.userId = true
 
 
 //reply messages
