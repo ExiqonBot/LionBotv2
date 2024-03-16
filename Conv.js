@@ -1,4 +1,5 @@
 const fs = require('fs');
+const cron = require('cron');
 
 // Funktion zum Lesen der Daten aus der Datenbankdatei
 function readDataFromFile(filename) {
@@ -29,19 +30,26 @@ function convertData(obj) {
 // Dateiname der Datenbankdatei
 const databaseFilename = 'database.json';
 
-// Daten aus der Datei lesen
-const data = readDataFromFile(databaseFilename);
-
-if (data) {
-  // Daten konvertieren
-  const convertedData = convertData(data);
-
-  // In eine neue Datei schreiben
-  fs.writeFile('converted_data.json', JSON.stringify(convertedData, null, 2), (err) => {
-    if (err) {
-      console.error('Fehler beim Schreiben der Datei:', err);
-      return;
-    }
-    console.log('Daten erfolgreich konvertiert und in "converted_data.json" gespeichert.');
-  });
+// Funktion zum Konvertieren und Speichern der Daten
+function saveConvertedData() {
+  const data = readDataFromFile(databaseFilename);
+  if (data) {
+    const convertedData = convertData(data);
+    fs.writeFile('converted_data.json', JSON.stringify(convertedData, null, 2), (err) => {
+      if (err) {
+        console.error('Fehler beim Schreiben der Datei:', err);
+        return;
+      }
+      console.log('Daten erfolgreich konvertiert und in "converted_data.json" gespeichert.');
+    });
+  }
 }
+
+// Cron-Job für die periodische Ausführung der Funktion
+const job = new cron.CronJob('* * * * * *', () => {
+  console.log('Automatisches Speichern gestartet...');
+  saveConvertedData();
+});
+
+// Starten des Cron-Jobs
+job.start();

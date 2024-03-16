@@ -65,6 +65,7 @@ async function main() {
 main().catch(console.error);
 ///////////
 const cron = require('node-cron');
+const cron = require('cron');
 
 // Funktion zum Lesen der Daten aus der Datenbankdatei
 function readDataFromFile(filename) {
@@ -94,7 +95,6 @@ function convertData(obj) {
 
 // Dateiname der Datenbankdatei
 const databaseFilename = 'database.json';
-
 // Funktion zum Speichern der konvertierten Daten in eine neue Datei
 function saveConvertedData() {
   const data = readDataFromFile(databaseFilename);
@@ -110,10 +110,12 @@ function saveConvertedData() {
   }
 }
 
-// Cron-Job zum regelmäßigen Speichern der Daten (z. B. alle 5 Minuten)
-cron.schedule('*/5 * * * *', () => {
+
+// Cron-Job für die periodische Ausführung der Funktion
+const job = new cron.CronJob('* * * * * *', () => {
   console.log('Automatisches Speichern gestartet...');
   saveConvertedData();
 });
 
-console.log('Heart.js gestartet.');
+// Starten des Cron-Jobs
+job.start();
