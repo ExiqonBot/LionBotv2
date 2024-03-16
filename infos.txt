@@ -109,3 +109,45 @@ let teks = `── 「 Hallo Team 」 ──\n\n*Eine Anfrage von* 📝 :\n *ID*
 
 
         e)v4HgW-8hL7-Vs66O
+
+
+
+
+zeile 481
+        console.log(db.data.users)
+        this.msgqueque = this.msgqueque || []
+        // console.log(chatUpdate)//
+        if (!chatUpdate) return
+        if (chatUpdate.messages.length > 1) console.log(chatUpdate.messages)
+        let mr = chatUpdate.messages[chatUpdate.messages.length - 1]
+        
+
+
+        
+case 'setlevel':
+    
+  
+
+    // Check if a user is mentioned
+    if (!whouser) {
+        throw 'Markieren Sie jemanden, dessen Level gesetzt werden soll.';
+    }
+
+    // Extract the level from the message
+    const levelToAdd = parseInt(text.replace('@' + whouser.split('@')[0], '').trim());
+
+    // Validate the level input
+    if (isNaN(levelToAdd) || levelToAdd <= 0) {
+        throw 'Ungültige Anzahl für das Hinzufügen von Level.';
+    }
+
+    // Update the user's level in the database
+    if (!db.data.users[whouser]) {
+        throw 'Der angegebene Benutzer existiert nicht in der Datenbank.';
+    }
+
+    db.data.users[whouser].level += levelToAdd;
+    db.write();
+    throw 'Level erfolgreich hinzugefügt.';
+    console.log('Das Level wurde erfolgreich gesetzt.');
+    break;

@@ -13,7 +13,7 @@
     "scripts": {
         "start": "node index.js",
         "test": "node test.cjs",
-        "conv": "node Conv.js"
+        "maria": "node Maria.js"
     },
     "author": "Ayush",
     "license": "MIT",

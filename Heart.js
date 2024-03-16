@@ -137,7 +137,8 @@ module.exports = Maria = async (Maria, m, msg, chatUpdate, store) => {
         const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
         const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
         const groupOwner = m.isGroup ? groupMetadata.owner : ''
-        const isbotOwner = require('./Config.js').botowner
+        const BotoOwner = '49491741711168';
+        const botOwner = '49491741711168';
         const userid = require('./databasee.json').id
         const mentionByTag = type == 'extendedTextMessage' && m.message.extendedTextMessage.contextInfo != null ? m.message.extendedTextMessage.contextInfo.mentionedJid : []
         const mentionByReply = type == 'extendedTextMessage' && m.message.extendedTextMessage.contextInfo != null ? m.message.extendedTextMessage.contextInfo.participant || '' : ''
@@ -433,26 +434,26 @@ function findIdByText(searchText) {
     try {
         data = JSON.parse(rawData);
     } catch (error) {
-        console.error('Fehler beim Lesen der Datei "database.json":', error);
+        console.error('Fehler beim Lesen der Datei "databasee.json":', error);
         return;
     }
 
     if (!Array.isArray(data)) {
-        console.error('Die Datei "database.json" enthält kein Array.');
+        console.error('Die Datei "databasee.json" enthält kein Array.');
         return;
     }
 
     let foundEntry = data.find(entry => entry.phoneNumber === searchText);
-
+    
     if (foundEntry) {
         console.log(`Gefunden: ${foundEntry.id}`);
         m.reply(`Id: ${foundEntry.id}`)
+        
     } else {
         m.reply('Dieser Benutzer ist nicht vorhanden.')
         console.log('Dieser Benutzer ist nicht vorhanden.');
     }
 }
-
 // Fügt einen neuen Text zur Datenbank hinzu, wenn er noch nicht existiert
 function addTextToDatabase(newText) {
   const data = JSON.parse(fs.readFileSync(patth));
@@ -467,8 +468,10 @@ function addTextToDatabase(newText) {
     console.log('Id wurde erfolgreich hinzugefügt: ', newEntry);
   } else {
     console.log('Dieser ID ist bereits vorhanden.');
+   
   }
 }
+console.log(`Id: ${id}`)
 
 // Initialisieren und Beispiele zur Nutzung
 initializeDatabase();
@@ -477,14 +480,6 @@ addTextToDatabase(phoneNumber);
 db.read()
 db.data ||= { users: {}, chats: {}, stats: {}, msgs: {}, sticker: {}, settings: {} }
 db.write()
-
- console.log(db.data.users)
-        this.msgqueque = this.msgqueque || []
-        // console.log(chatUpdate)//
-        if (!chatUpdate) return
-        if (chatUpdate.messages.length > 1) console.log(chatUpdate.messages)
-        let mr = chatUpdate.messages[chatUpdate.messages.length - 1]
-        
 
         try {
             let user = db.data && db.data.users ? db.data.users[m.sender] : null
@@ -2609,10 +2604,14 @@ https://chat.whatsapp.com/${response}
 
 // Ihr Befehls-Handler
 
+// Überprüfung, ob der Absender der Bot-Besitzer ist
+function isBotOwner(sender) {
+    return sender === botOwner;
+}
 case 'setlevel':
-    // Check if the user is an admin
-    if (!isbotOwner) {
-        throw 'Nur Administratoren können den Befehl ausführen.';
+    // Check if the user executing the command is one of the owners
+    if (!global.owner.includes(m.sender.author)) {
+        throw 'Nur Besitzer können diesen Befehl ausführen.';
     }
 
     // Check if a user is mentioned
@@ -2635,7 +2634,7 @@ case 'setlevel':
 
     db.data.users[whouser].level += levelToAdd;
     db.write();
-    
+    throw 'Level erfolgreich hinzugefügt.';
     console.log('Das Level wurde erfolgreich gesetzt.');
     break;
 
@@ -2733,7 +2732,7 @@ db.write()
                 }
         }
     } catch (err) {
-        Maria.sendText('49491741711168@s.whatsapp.net', util.format(err), m)
+        Maria.sendText('120363265848082656@g.us', util.format(err), m)
         console.log(util.format(err))
     }
 }
