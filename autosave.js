@@ -1,5 +1,6 @@
 const { MongoClient, ServerApiVersion } = require('mongodb');
-
+const fs = require('fs');
+const cron = require('cron');
 
 const uri = "mongodb+srv://baron:xjFQyvqxnup6vKfQ@lionbot.ymq2zpo.mongodb.net/?retryWrites=true&w=majority&appName=LionBot";
 const client = new MongoClient(uri, {
@@ -51,6 +52,9 @@ async function importData() {
     }
 
     console.log(`${totalCount} documents successfully inserted into the database.`);
+
+    // Starte den Cron-Job erneut, nachdem der Importvorgang abgeschlossen ist
+    job.start();
   } catch (error) {
     console.error('Error saving data to MongoDB:', error);
   }
@@ -62,60 +66,16 @@ async function main() {
   await client.close();
 }
 
-main().catch(console.error);
-///////////
-const cron = require('node-cron');
-const cron = require('cron');
-
-// Funktion zum Lesen der Daten aus der Datenbankdatei
-function readDataFromFile(filename) {
-  try {
-    const data = fs.readFileSync(filename, 'utf8');
-    return JSON.parse(data);
-  } catch (err) {
-    console.error('Fehler beim Lesen der Datei:', err);
-    return null;
-  }
-}
-
-// Funktion zum Konvertieren der Daten
-function convertData(obj) {
-  const usersArray = [];
-  for (const user in obj.users) {
-    const userData = {
-      id: user,
-      exp: obj.users[user].exp,
-      level: obj.users[user].level,
-      role: obj.users[user].role
-    };
-    usersArray.push(userData);
-  }
-  return usersArray;
-}
-
-// Dateiname der Datenbankdatei
-const databaseFilename = 'database.json';
-// Funktion zum Speichern der konvertierten Daten in eine neue Datei
-function saveConvertedData() {
-  const data = readDataFromFile(databaseFilename);
-  if (data) {
-    const convertedData = convertData(data);
-    fs.writeFile('converted_data.json', JSON.stringify(convertedData, null, 2), (err) => {
-      if (err) {
-        console.error('Fehler beim Schreiben der Datei:', err);
-        return;
-      }
-      console.log('Daten erfolgreich konvertiert und in "converted_data.json" gespeichert.');
-    });
-  }
-}
-
-
-// Cron-Job für die periodische Ausführung der Funktion
-const job = new cron.CronJob('* * * * * *', () => {
+// Cron-Job für die einmalige Ausführung der Funktion alle 5 Minuten
+const job = new cron.CronJob('1 * * * * *', async () => {
   console.log('Automatisches Speichern gestartet...');
-  saveConvertedData();
+  // Stoppe den Cron-Job, während der Importvorgang läuft
+  job.stop();
+  await importData();
 });
 
-// Starten des Cron-Jobs
+// Starte den Cron-Job
 job.start();
+
+// Führe main() einmalig aus
+main().catch(console.error);

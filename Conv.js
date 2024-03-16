@@ -1,47 +1,45 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const cron = require('cron');
 
 // Funktion zum Lesen der Daten aus der Datenbankdatei
-function readDataFromFile(filename) {
+async function readDataFromFile(filename) {
   try {
-    const data = fs.readFileSync(filename, 'utf8');
+    const data = await fs.readFile(filename, 'utf8');
     return JSON.parse(data);
   } catch (err) {
-    console.error('Fehler beim Lesen der Datei:', err);
+    if (err.code === 'ENOENT') {
+      console.error('Die Datenbankdatei existiert nicht:', filename);
+    } else {
+      console.error('Fehler beim Lesen der Datei:', err);
+    }
     return null;
   }
 }
 
 // Funktion zum Konvertieren der Daten
 function convertData(obj) {
-  const usersArray = [];
-  for (const user in obj.users) {
-    const userData = {
-      id: user,
-      exp: obj.users[user].exp,
-      level: obj.users[user].level,
-      role: obj.users[user].role
-    };
-    usersArray.push(userData);
-  }
-  return usersArray;
+  return Object.entries(obj.users).map(([id, userData]) => ({
+    id,
+    exp: userData.exp,
+    level: userData.level,
+    role: userData.role
+  }));
 }
 
 // Dateiname der Datenbankdatei
 const databaseFilename = 'database.json';
 
 // Funktion zum Konvertieren und Speichern der Daten
-function saveConvertedData() {
-  const data = readDataFromFile(databaseFilename);
+async function saveConvertedData() {
+  const data = await readDataFromFile(databaseFilename);
   if (data) {
     const convertedData = convertData(data);
-    fs.writeFile('converted_data.json', JSON.stringify(convertedData, null, 2), (err) => {
-      if (err) {
-        console.error('Fehler beim Schreiben der Datei:', err);
-        return;
-      }
+    try {
+      await fs.writeFile('converted_data.json', JSON.stringify(convertedData, null, 2));
       console.log('Daten erfolgreich konvertiert und in "converted_data.json" gespeichert.');
-    });
+    } catch (err) {
+      console.error('Fehler beim Schreiben der Datei:', err);
+    }
   }
 }
 

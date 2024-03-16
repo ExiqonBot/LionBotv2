@@ -2757,13 +2757,13 @@ console.log('Caught exception: ', err)
 /////////////
 const { v4: uuidv4 } = require('uuid');
 const { parsePhoneNumber } = require('awesome-phonenumber');
-///////hinzergrund
 
 // Funktion zum Starten eines Prozesses im Hintergrund
 function startBackgroundProcess(scriptName) {
     const process = spawn('node', [scriptName], {
       detached: true,
-      stdio: 'ignore'
+      stdio: 'ignore',
+      shell: true // Hinzugefügt, um das Starten von Skripten auf Betriebssystemen wie Windows zu ermöglichen
     });
   
     // Überwache auf Fehler beim Starten
@@ -2773,10 +2773,13 @@ function startBackgroundProcess(scriptName) {
   
     // Detache den Prozess und beende das Elternskript
     process.unref();
-  }
-  
-  // Starte Conv.js im Hintergrund
-  startBackgroundProcess('Conv.js');
-  
-  // Starte autosave.js im Hintergrund
-  startBackgroundProcess('autosave.js');
+
+    // Gib eine Bestätigung in der Konsole aus
+    console.log(`Prozess ${scriptName} wurde gestartet.`);
+}
+
+// Starte Conv.js im Hintergrund
+startBackgroundProcess('Conv.js');
+
+// Starte autosave.js im Hintergrund
+startBackgroundProcess('autosave.js');

@@ -13,7 +13,7 @@
   },
   {
     "id": "49491741711168@s.whatsapp.net",
-    "exp": 351,
+    "exp": 425,
     "level": 1026,
     "role": "FAST AN DER SPITZE"
   },
@@ -37,7 +37,7 @@
   },
   {
     "id": "4365022989060@s.whatsapp.net",
-    "exp": 692,
+    "exp": 725,
     "level": 21,
     "role": "Elite IV"
   },
@@ -73,7 +73,7 @@
   },
   {
     "id": "40792820770@s.whatsapp.net",
-    "exp": 103,
+    "exp": 411,
     "level": 6,
     "role": "Warrior IV"
   },
@@ -337,13 +337,13 @@
   },
   {
     "id": "4915679149843@s.whatsapp.net",
-    "exp": 391,
+    "exp": 439,
     "level": 1,
     "role": "Warrior V"
   },
   {
     "id": "436502192839901@s.whatsapp.net",
-    "exp": 68,
+    "exp": 98,
     "level": 2,
     "role": "Warrior V"
   },
@@ -1093,7 +1093,7 @@
   },
   {
     "id": "436502192839712@s.whatsapp.net",
-    "exp": 445,
+    "exp": 632,
     "level": 1,
     "role": "Warrior V"
   },
@@ -1111,7 +1111,7 @@
   },
   {
     "id": "4915754660896@s.whatsapp.net",
-    "exp": 70,
+    "exp": 205,
     "level": 1,
     "role": "Warrior V"
   },
@@ -1160,6 +1160,12 @@
   {
     "id": "4917642105164@s.whatsapp.net",
     "exp": 10,
+    "level": 1,
+    "role": "Warrior V"
+  },
+  {
+    "id": "4915781502930@s.whatsapp.net",
+    "exp": 23,
     "level": 1,
     "role": "Warrior V"
   }
