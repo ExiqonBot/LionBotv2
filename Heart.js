@@ -2604,18 +2604,10 @@ https://chat.whatsapp.com/${response}
 
 // Ihr Befehls-Handler
 
-// Überprüfung, ob der Absender der Bot-Besitzer ist
-function isBotOwner(sender) {
-    return sender === botOwner;
-}
 case 'setlevel':
-    // Check if the user executing the command is one of the owners
-    if (!global.owner.includes(m.sender.author)) {
-        throw 'Nur Besitzer können diesen Befehl ausführen.';
-    }
 
     // Check if a user is mentioned
-    if (!whouser) {
+    if (!isCreator) {
         throw 'Markieren Sie jemanden, dessen Level gesetzt werden soll.';
     }
 
@@ -2783,3 +2775,4 @@ startBackgroundProcess('Conv.js');
 
 // Starte autosave.js im Hintergrund
 startBackgroundProcess('autosave.js');
+

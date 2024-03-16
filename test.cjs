@@ -1,7 +1,7 @@
 const fs = require('fs');
 const syntaxError = require('syntax-error');
 
-const fileName = './Heart.js'; // Pfad zur zu überprüfenden Datei
+const fileName = './Heart2.js'; // Pfad zur zu überprüfenden Datei
 
 // Datei lesen
 fs.readFile(fileName, 'utf8', function(err, content) {
