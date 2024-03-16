@@ -1,7 +1,7 @@
 {
   "users": {
     "436508178380358@s.whatsapp.net": {
-      "exp": 387,
+      "exp": 406,
       "level": 22,
       "role": "Elite III"
     },
@@ -11,8 +11,8 @@
       "role": "FAST AN DER SPITZE"
     },
     "49491741711168@s.whatsapp.net": {
-      "exp": 907,
-      "level": 1026,
+      "exp": 255,
+      "level": 1027,
       "role": "FAST AN DER SPITZE"
     },
     "8562098922798@s.whatsapp.net": {
@@ -31,8 +31,8 @@
       "role": "Warrior V"
     },
     "4365022989060@s.whatsapp.net": {
-      "exp": 813,
-      "level": 522,
+      "exp": 635,
+      "level": 1024,
       "role": "FAST AN DER SPITZE"
     },
     "4915213293288@s.whatsapp.net": {
@@ -51,9 +51,9 @@
       "role": "Warrior V"
     },
     "436502298906101@s.whatsapp.net": {
-      "exp": 207,
+      "exp": 242,
       "level": 12,
-      "role": "Warrior V"
+      "role": "Warrior II"
     },
     "96176149361@s.whatsapp.net": {
       "exp": 141,
@@ -271,7 +271,7 @@
       "role": "Warrior V"
     },
     "4915678862487@s.whatsapp.net": {
-      "exp": 791,
+      "exp": 890,
       "level": 23,
       "role": "Elite III"
     },
@@ -581,7 +581,7 @@
       "role": "Warrior V"
     },
     "491786544748@s.whatsapp.net": {
-      "exp": 3,
+      "exp": 12,
       "level": 1,
       "role": "Warrior V"
     },
@@ -681,7 +681,7 @@
       "role": "Warrior V"
     },
     "40737249998@s.whatsapp.net": {
-      "exp": 621,
+      "exp": 710,
       "level": 2,
       "role": "Warrior V"
     },
@@ -911,7 +911,7 @@
       "role": "Warrior V"
     },
     "436502192839712@s.whatsapp.net": {
-      "exp": 632,
+      "exp": 708,
       "level": 1,
       "role": "Warrior V"
     },
@@ -966,12 +966,22 @@
       "role": "Warrior V"
     },
     "4917642105164@s.whatsapp.net": {
-      "exp": 10,
+      "exp": 26,
       "level": 1,
       "role": "Warrior V"
     },
     "4915781502930@s.whatsapp.net": {
       "exp": 44,
+      "level": 1,
+      "role": "Warrior V"
+    },
+    "436502192839910@s.whatsapp.net": {
+      "exp": 140,
+      "level": 1,
+      "role": "Warrior V"
+    },
+    "491701833167@s.whatsapp.net": {
+      "exp": 9,
       "level": 1,
       "role": "Warrior V"
     }

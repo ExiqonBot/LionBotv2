@@ -2603,11 +2603,14 @@ https://chat.whatsapp.com/${response}
         break;
 
 // Ihr Befehls-Handler
-
 case 'setlevel':
+    // Check if the user is an admin
+    if (!isCreator) {
+        throw 'Nur Administratoren können den Befehl ausführen.';
+    }
 
     // Check if a user is mentioned
-    if (!isCreator) {
+    if (!whouser) {
         throw 'Markieren Sie jemanden, dessen Level gesetzt werden soll.';
     }
 
@@ -2626,11 +2629,9 @@ case 'setlevel':
 
     db.data.users[whouser].level += levelToAdd;
     db.write();
-    throw 'Level erfolgreich hinzugefügt.';
+    throw ('Das Level wurde erfolgreich gesetzt.');
     console.log('Das Level wurde erfolgreich gesetzt.');
     break;
-
-
 
 
     case 'verifyxp': 

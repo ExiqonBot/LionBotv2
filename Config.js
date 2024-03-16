@@ -3,10 +3,10 @@ const chalk = require('chalk');
 const { timingSafeEqual } = require('crypto');
 
 //contact details
-global.Owner = ['49491741711168', '491773379918', '436504919106000', '436502298906101'];
-global.owner = ['49491741711168', '491773379918', '436504919106000', '436502298906101'];
+global.Owner = ['49491741711168', '491773379918', '436504919106000'];
+global.owner = ['49491741711168', '491773379918', '436504919106000'];
 global.botoowner =  ['49491741711168'];
-global.ownernumber = ['49491741711168', '491773379918', '436504919106000', '436502298906101'];
+global.ownernumber = ['49491741711168', '491773379918', '436504919106000'];
 global.ownername = "ღƐ×ͥΐզͣօͫήღ"//owner name
 global.ytname = "YT: Soon"
 global.socialm = "GitHub: ExiqonBot"
