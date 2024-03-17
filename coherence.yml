@@ -1,0 +1,163 @@
+
+# this is an advanced option (AWS-only) to run multipe coherence apps in the same VPC
+allow_vpc_sharing: true
+
+# service name
+frontend:
+  # service type, required for each service
+  type: frontend
+
+  # option, for a frontend app this is the index file of your SPA
+  index_file_name: index.html
+
+  # optional, defaults to /, what URL path should route to this service
+  # must be unique for each service in an application
+  url_path: /
+
+  # this is the build context for the container for this service
+  repo_path: frontend
+
+  # where do built assets get put - we will copy this whole directory to the CDN
+  assets_path: build
+
+  # these will be copied from the built docker container into the Workspace
+  # this setting is only relevant for a Workspace, not a preview or static environment
+  local_packages: ["node_modules"]
+
+  # what command builds assets for this service?
+  build: ["yarn", "build"]
+
+  # an optional array of tests to run in CI/CD
+  test:
+    - ["foo", "bar"]
+    - ["lint", "1"]
+
+  # what command to run in the Workspace, for the dev server
+  # can optionally supply a Dockerfile for the dev container here as well
+  dev:
+    command: ["yarn", "dev"]
+
+  # this will set the `Access-Control-Allow-Origin` header in the response
+  cors:
+    allowed_origins: ["www.example.com"]
+
+  # optional config for resources
+  system:
+
+    # these cpu & memory only apply for Workspaces
+    dev:
+      cpu: 2
+      memory: 4G
+
+# service name
+backend:
+  # service type, required for each service
+  type: backend
+
+  # optional, defaults to /, what URL path should route to this service
+  # must be unique for each service in an application
+  url_path: /api
+
+  # this is the build context for the container for this service
+  repo_path: backend
+
+  # this will add a step to CI for database migrations
+  migration: ["migration", "command"]
+
+  # this will add a step to CI for database seeding
+  seed: ["seed", "command"]
+
+  # what command to run in the Workspace, for the dev server
+  # can optionally supply a Dockerfile for the dev container here as well
+  dev:
+    command: ["run", "command"]
+    dockerfile: "Dockerfile.dev"
+
+  # an optional array of tests to run in CI
+  test:
+    - ["foo", "bar"]
+    - ["foo", "baz"]
+
+  # what command to run in a deployed environment
+  # this will run in previews and static as well, not just prod
+  # this Dockerfile will be the default for dev if none supplied there
+  prod:
+    command: ["run", "command"]
+    dockerfile: "Dockerfile.prod"
+
+  # optional step to compile in a different container than you build into
+  compile:
+    image: "foo/bar:1.2.3"
+    command: ["foo", "bar"]
+    entrypoint: "foo"
+
+  # array of awync workers that consume jobs
+  # e.g. celery or sidekiq
+  workers:
+  # optional, if supplied will run just this 1 worker in a workspace
+  - name: dev_workspace
+    command: ["worker", "dev", "command"]
+  # optional, if supplied will run just this 1 worker in a preview branch
+  # this is to save $$ in preview deployments
+  - name: preview_environment
+    command: ["worker", "preview", "command"]
+  - name: default queue worker 1
+    command: ["worker", "command"]
+  - name: default queue worker 2
+    command: ["worker", "command"]
+
+  # these will be run as Cron tasks in the container runtime (k8s or ECS)
+  scheduled_tasks:
+  - name: task 1
+    command: [“sleep”]
+    schedule: "* * * * *"
+
+  # resources for each environment
+  resources:
+  - name: db1
+    engine: postgres
+    version: 13
+    type: database
+  - name: redis
+    engine: redis
+    version: 4
+    type: cache
+  
+  # optional
+  system:
+    # deployed env resource settings
+    memory: 2G
+    cpu: 1
+
+    # workspace resource settings
+    dev:
+      cpu: 4
+      memory: 3G
+
+    # optional, controls scale
+    # on AWS, these only apply to prod
+    platform_settings:
+      min_scale: 2
+      max_scale: 6
+      throttle_cpu: true
+
+# controls the machine type used in CI pipelines
+build_settings:
+  platform_settings:
+    machine_type: "N1_HIGHCPU_8"
+
+# optional, adds integration test step after each deploy to a preview
+integration_test:
+  type: integration_test
+  command: ["cypress", "run", "--record"]
+
+  # this would usually be a 3rd-party supplied image
+  image: "cypress/included:9.4.1"
+
+# pause preview environments after this long without a push to save $
+preview_inactivity_timeout_hours: 72
+
+# (AWS-only) optional config to choose which VPC to share into
+vpc_sharing:
+  app_name: my-first-app
+  fallback_environment: main
