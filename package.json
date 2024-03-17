@@ -20,13 +20,11 @@
     "keywords": [
         "baileys",
         "code-pairing"
-      ],  
-      
-      "bugs": {
+    ],
+    "bugs": {
         "url": "https://github.com/whiteshadowofficial/Multi-device-PairCode/issues"
-      },
-      "homepage": "https://github.com/whiteshadowofficial/Multi-device-PairCode#readme"
-    ,
+    },
+    "homepage": "https://github.com/whiteshadowofficial/Multi-device-PairCode#readme",
     "dependencies": {
         "@adiwajshing/baileys": "^3.5.3",
         "@adiwajshing/keyed-db": "^0.2.4",
@@ -37,6 +35,7 @@
         "chalk": "^4.1.2",
         "cheerio": "^1.0.0-rc.12",
         "child_process": "^1.0.2",
+        "coherence": "^3.0.1",
         "cookie": "^0.5.0",
         "cron": "^3.1.6",
         "express.js": "^1.0.0",
@@ -78,4 +77,4 @@
         "ytdl-core": "^4.11.5",
         "zwa": "^1.0.2-dev"
     }
- }
+}
