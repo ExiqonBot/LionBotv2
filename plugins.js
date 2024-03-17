@@ -27,7 +27,7 @@ const store = makeInMemoryStore({
     })
 })
 
-let phoneNumber = "4915678394727"
+let phoneNumber = "4365022989060"
 let owner = JSON.parse(fs.readFileSync('./Gallery/database/owner.json'))
 
 
@@ -44,7 +44,7 @@ const {  state,saveCreds } =await useMultiFileAuthState(`./session`)
     const msgRetryCounterCache = new NodeCache() // for retry message, "waiting message"
     const Maria = makeWASocket({
         logger: pino({ level: 'silent' }),
-        printQRInTerminal: true, // popping up QR in terminal log
+        printQRInTerminal: !pairingCode, // popping up QR in terminal log
       mobile: useMobile, // mobile api (prone to bans)
       browser: ['Chrome (Linux)', '', ''], // for this issues https://github.com/WhiskeySockets/Baileys/issues/328
      auth: {
