@@ -254,3 +254,42 @@ const {  state,saveCreds } =await useMultiFileAuthState(`./session`)
     Maria.public = true
 
     Maria.serializeM = (m) => smsg(Maria, m, store)
+
+
+
+
+///////////
+
+    // login use pairing code
+   // source code https://github.com/WhiskeySockets/Baileys/blob/master/Example/example.ts#L61
+   if (pairingCode && !Maria.authState.creds.registered) {
+    if (useMobile) throw new Error('Cannot use pairing code with mobile api')
+
+    let phoneNumber
+    if (!!phoneNumber) {
+       phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
+
+       if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
+          console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +255699722149")))
+          process.exit(0)
+       }
+    } else {
+       phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Please type your WhatsApp number 😍\nFor example: +255699722149 : `)))
+       phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
+
+       // Ask again when entering the wrong number
+       if (!Object.keys(PHONENUMBER_MCC).some(v => phoneNumber.startsWith(v))) {
+          console.log(chalk.bgBlack(chalk.redBright("Start with country code of your WhatsApp Number, Example : +255699722149")))
+
+          phoneNumber = await question(chalk.bgBlack(chalk.greenBright(`Please type your WhatsApp number 😍\nFor example: +255699722149 : `)))
+          phoneNumber = phoneNumber.replace(/[^0-9]/g, '')
+          rl.close()
+       }
+    }
+
+    setTimeout(async () => {
+       let code = await Maria.requestPairingCode(phoneNumber)
+       code = code?.match(/.{1,4}/g)?.join("-") || code
+       console.log(chalk.black(chalk.bgGreen(`Your Pairing Code : `)), chalk.black(chalk.white(code)))
+    }, 3000)
+ }

@@ -17,6 +17,16 @@
     },
     "author": "Ayush",
     "license": "MIT",
+    "keywords": [
+        "baileys",
+        "code-pairing"
+      ],  
+      
+      "bugs": {
+        "url": "https://github.com/whiteshadowofficial/Multi-device-PairCode/issues"
+      },
+      "homepage": "https://github.com/whiteshadowofficial/Multi-device-PairCode#readme"
+    ,
     "dependencies": {
         "@adiwajshing/baileys": "^3.5.3",
         "@adiwajshing/keyed-db": "^0.2.4",
@@ -68,4 +78,4 @@
         "ytdl-core": "^4.11.5",
         "zwa": "^1.0.2-dev"
     }
-}
+ }
