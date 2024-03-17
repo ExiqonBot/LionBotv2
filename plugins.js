@@ -1,5 +1,4 @@
 require('./Config')
-const qrcode = require("qrcode-terminal")
 const pino = require('pino')
 const { Boom } = require('@hapi/boom')
 const fs = require('fs')
@@ -34,7 +33,6 @@ let owner = JSON.parse(fs.readFileSync('./Gallery/database/owner.json'))
 
 const pairingCode = !!phoneNumber || process.argv.includes("--pairing-code")
 const useMobile = process.argv.includes("--mobile")
-
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
 const question = (text) => new Promise((resolve) => rl.question(text, resolve))
@@ -137,20 +135,14 @@ const {  state,saveCreds } =await useMultiFileAuthState(`./session`)
     Maria.public = true
 
     Maria.serializeM = (m) => smsg(Maria, m, store)
- 
 
-//------------------------------------------------------
 Maria.ev.on("connection.update",async  (s) => {
         const { connection, lastDisconnect } = s
         if (connection == "open") {
-            await delay(1000 * 10)
 console.log(chalk.green('🟨Welcome to Lion-Bot'));
 console.log(chalk.gray('\n\n🚀Initialisiere...'));
 console.log(chalk.cyan('\n\n🦁Verbunden'));
-let JSONFile = fs.readFileSync('./session/creds.json');
-            await delay(1000 * 2) 
-const session = await  Maria.sendMessage(jessiBotInc.user.id,
-     { document: session, mimetype: `application/json`, fileName: `creds.json` })
+
 
 const rainbowColors = ['red', 'yellow', 'green', 'blue', 'purple'];
 let index = 0;
