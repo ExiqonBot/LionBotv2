@@ -1,3 +1,7 @@
+
+
+CMD ["node", "."]
+
 617 command 
 endet bei 2600
 
