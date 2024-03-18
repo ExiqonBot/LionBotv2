@@ -1,4 +1,4 @@
-const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAMessageContent, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, fromMe, getContentType, PHONENUMBER_MCC } = require('@whiskeysockets/baileys')
+const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAbody, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, fromMe, getContentType, PHONENUMBER_MCC } = require('@whiskeysockets/baileys')
 const os = require('os')
 const mysql = require('mysql');
 const fs = require('fs')
@@ -22,7 +22,7 @@ const { smsg, getGroupAdmins, formatp, jam, formatDate, getTime, isUrl, await, s
 let afk = require("./Gallery/lib/afk");
 const { fetchBuffer, buffergif } = require("./Gallery/lib/myfunc2")
 const isNumber = x => typeof x === 'number' && !isNaN(x)
-const { prefix , config, Owner} = require('./Config.js')
+const { prefixx , config, Owner} = require('./Config.js')
 const yargs = require('yargs/yargs')
 const _ = require('lodash')
 const {createHash} = require('crypto')
@@ -92,12 +92,12 @@ module.exports = Maria = async (Maria, m, msg, chatUpdate, store) => {
             now,
             fromMe
         } = m
-        var body = (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectreply.selectedRowId : (m.mtype == 'templateButtonreplyMessage') ? m.message.templateButtonreplyMessage.selectedId : (m.mtype === 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectreply.selectedRowId || m.text) : ''
+        var body = (m.mtype === 'conversation') ? m.message.conversation : (m.mtype == 'imageMessage') ? m.message.imageMessage.caption : (m.mtype == 'videoMessage') ? m.message.videoMessage.caption : (m.mtype == 'extendedTextMessage') ? m.message.extendedTextMessage.text : (m.mtype == 'buttonsResponseMessage') ? m.message.buttonsResponseMessage.selectedButtonId : (m.mtype == 'listResponseMessage') ? m.message.listResponseMessage.singleSelectReply.selectedRowId : (m.mtype == 'templateButtonReplyMessage') ? m.message.templateButtonReplyMessage.selectedId : (m.mtype === 'messageContextInfo') ? (m.message.buttonsResponseMessage?.selectedButtonId || m.message.listResponseMessage?.singleSelectReply.selectedRowId || m.text) : ''
         var budy = (typeof m.text == 'string' ? m.text : '')
-        
-        const prefix = prefa
+        const prefix = global.prefa
         const isCmd = body.startsWith(prefix)
-        const command = body.replace(prefix, '').trim().split(/ +/).shift().toLowerCase()
+        const notCmd = body.startsWith('')
+        const command = isCmd ? body.slice(1).trim().split(' ')[0].toLowerCase() : ''
         const args = body.trim().split(/ +/).slice(1)
         const full_args = body.replace(command, '').slice(1).trim()
         const pushname = m.pushName || "No Name"
@@ -131,8 +131,8 @@ module.exports = Maria = async (Maria, m, msg, chatUpdate, store) => {
         const isAfkOn = afk.checkAfkUser(m.sender, _afk)
         const isGroup = m.key.remoteJid.endsWith('@g.us')
         const groupMetadata = m.isGroup ? await Maria.groupMetadata(m.chat).catch(e => {}) : ''
-        const groupName = m.isGroup ? groupMetadata.subject : ''
-        const participants = m.isGroup ? await groupMetadata.participants : ''
+        const groupName = m.isGroup ? groupMetadata?.subject : ''
+        const participants = m.isGroup ? await groupMetadata?.participants : ''
         const groupAdmins = m.isGroup ? await getGroupAdmins(participants) : ''
         const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false
         const isAdmins = m.isGroup ? groupAdmins.includes(m.sender) : false
@@ -290,14 +290,14 @@ async function Telesticker(url) {
             console.log(chalk.black(chalk.bgWhite('[ MESSAGE ]')), chalk.black(chalk.bgGreen(new Date)), chalk.black(chalk.bgBlue(budy || m.mtype)) + '\n' + chalk.magenta('=> From'), chalk.green(pushname), chalk.yellow(m.sender))
         }
 
-        if (command) {
-            const cmdadd = () => {
-                hit[0].hit_cmd += 1
-                fs.writeFileSync('./Gallery/database/total-hit-user.json', JSON.stringify(hit))
-            }
-            cmdadd()
-            const totalhit = JSON.parse(fs.readFileSync('./Gallery/database/total-hit-user.json'))[0].hit_cmd
-        }
+       // if (command) {
+           // const cmdadd = () => {
+            //    hit[0].hit_cmd += 1
+            //    fs.writeFileSync('./Gallery/database/total-hit-user.json', JSON.stringify(hit))
+            //}
+           // cmdadd()
+           // const totalhit = JSON.parse(fs.readFileSync('./Gallery/database/total-hit-user.json'))[0].hit_cmd
+       // }
         const photooxy = require('./Gallery/lib/photooxy')
         
         
@@ -1984,7 +1984,7 @@ ${readmore}
      
        case 'circlevideo': {
 try {
-const Mariabaileys = await require("@whiskeysockets/baileys").generateWAMessageContent({ video: await m.quoted.download() }, { upload: Maria.waUploadToServer })
+const Mariabaileys = await require("@whiskeysockets/baileys").generateWAbody({ video: await m.quoted.download() }, { upload: Maria.waUploadToServer })
 await Maria.relayMessage(from, { ptvMessage: { ...Mariabaileys.videoMessage } }, {})
 } catch (err) {
 reply(`Reply to a Video with Caption ${prefix + command}`)

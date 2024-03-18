@@ -1,4 +1,4 @@
 // Maria.js
 
-class Maria { constructor() { // ... } addCommand(command, callback) { // ... } } module.exports = Maria; 
+class Maria { constructor() { // ... } addCommand(command, callback) { // ... } } module.exports = Maria;
 }

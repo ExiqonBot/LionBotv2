@@ -28,7 +28,7 @@ global.link = 'https://chat.whatsapp.com/EGqCW9HeVoq3W2KmgX3Ri0'
 //custom prefix
 global.prefa = ['/']
 global.sp = '⭔'
-process.prefix = ['/'] 
+process.prefixx = ['/'] 
 
 
 //false=disable and true=enable
