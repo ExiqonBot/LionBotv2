@@ -1,4 +1,5 @@
-const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAbody, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, fromMe, getContentType, PHONENUMBER_MCC } = require('@whiskeysockets/baileys')
+const { BufferJSON, WA_DEFAULT_EPHEMERAL, generateWAMessageFromContent, proto, generateWAbody, generateWAMessage, prepareWAMessageMedia, areJidsSameUser, getContentType, PHONENUMBER_MCC } = require('@whiskeysockets/baileys');
+const { fromMe } = require('@whiskeysockets/baileys');
 const os = require('os')
 const mysql = require('mysql');
 const fs = require('fs')
@@ -18,7 +19,7 @@ const more = String.fromCharCode(8206)
 const readmore = more.repeat(4001)
 const { TelegraPh, UploadFileUgu, webp2mp4File, floNime } = require('./Gallery/lib/uploader')
 const { toAudio, toPTT, toVideo, ffmpeg, addExifAvatar } = require('./Gallery/lib/converter')
-const { smsg, getGroupAdmins, formatp, jam, formatDate, getTime, isUrl, await, sleep, clockString, msToDate, sort, toNumber, enumGetKey, runtime, fetchJson, getBuffer, json, delay, format, logic, generateProfilePicture, parseMention, getRandom, pickRandom,reSize } = require('./Gallery/lib/myfunc')
+const { smsg, getGroupAdmins, formatp, jam, formatDate, getTime, isUrl, await, sleep, clockString, msToDate, sort, toNumber, enumGetKey, runtime,  fetchJson, getBuffer, json, delay, format, logic, generateProfilePicture, parseMention, getRandom, pickRandom,reSize } = require('./Gallery/lib/myfunc')
 let afk = require("./Gallery/lib/afk");
 const { fetchBuffer, buffergif } = require("./Gallery/lib/myfunc2")
 const isNumber = x => typeof x === 'number' && !isNaN(x)
